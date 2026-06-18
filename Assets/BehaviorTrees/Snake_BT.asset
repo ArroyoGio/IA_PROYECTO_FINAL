@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b23f08d2ae4cba14087c1ed36193d82b, type: 3}
+  m_Name: Snake_BT
+  m_EditorClassIdentifier: Assembly-CSharp-firstpass::BehaviorDesigner.Runtime.ExternalBehaviorTree
+  mBehaviorSource:
+    behaviorName: Behavior
+    behaviorDescription: 
+    mTaskData:
+      types: []
+      parentIndex: 
+      startIndex: 
+      variableStartIndex: 
+      JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(391,1)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(1,121)"},"ID":1,"Name":"Selector","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-195,118)"},"ID":2,"Name":"VePresa","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"VePresa","NodeData":{"Offset":"(-408,125)"},"ID":3,"Name":"Ve
+        Presa","Instant":true,"SharedTransformdetectedTarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":null},"LayerMaskpreyLayer":0},{"Type":"EnergiaBioluminiscenteAlta","NodeData":{"Offset":"(-263,127)"},"ID":4,"Name":"Energia
+        Bioluminiscente Alta","Instant":true,"Singlethreshold":30},{"Type":"EmitirDestello","NodeData":{"Offset":"(-108,131)"},"ID":5,"Name":"Emitir
+        Destello","Instant":true},{"Type":"PursuitNode","NodeData":{"Offset":"(4,134)"},"ID":6,"Name":"Pursuit
+        Node","Instant":true,"SharedTransformtarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":null}},{"Type":"PresaAlcance","NodeData":{"Offset":"(107,136)"},"ID":7,"Name":"Presa
+        Alcance","Instant":true,"SharedTransformtarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":null},"Singlerange":5},{"Type":"AttackNode","NodeData":{"Offset":"(224,150)"},"ID":8,"Name":"Attack
+        Node","Instant":true,"SharedTransformtarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":null}}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(238,110)"},"ID":9,"Name":"EnergiaBioluminiscenteBaja","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"EnergiaBioluminiscenteBaja","NodeData":{"Offset":"(-55.41674,157.270325)"},"ID":10,"Name":"Energia
+        Bioluminiscente Baja","Instant":true,"Singlethreshold":20},{"Type":"RecargarBioEnergy","NodeData":{"Offset":"(123.333252,163.520325)"},"ID":11,"Name":"Recargar
+        Bio Energy","Instant":true}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(532.083252,108.5204)"},"ID":12,"Name":"Wander","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-5.41673565,118.520325)"},"ID":13,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"MoveStealthily","NodeData":{"Offset":"(4.5832386,118.520325)"},"ID":14,"Name":"Move
+        Stealthily","Instant":true}]},{"Type":"WanderNode","NodeData":{"Offset":"(149.583252,123.520325)"},"ID":15,"Name":"Wander
+        Node","Instant":true}]}]}}'
+      fieldSerializationData:
+        typeName: []
+        fieldNameHash: 
+        startIndex: 
+        dataPosition: 
+        unityObjects: []
+        byteData: 
+        byteDataArray: 
+      Version: 1.7.13

@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b23f08d2ae4cba14087c1ed36193d82b, type: 3}
+  m_Name: Octopus_BT
+  m_EditorClassIdentifier: Assembly-CSharp-firstpass::BehaviorDesigner.Runtime.ExternalBehaviorTree
+  mBehaviorSource:
+    behaviorName: Behavior
+    behaviorDescription: 
+    mTaskData:
+      types: []
+      parentIndex: 
+      startIndex: 
+      variableStartIndex: 
+      JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(451,-62)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(0.999990463,143.641022)"},"ID":1,"Name":"Selector","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(-221.2335,106.055626)"},"ID":2,"Name":"VeAmenaza","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(13.8827438,97.21841)"},"ID":3,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"VeAmenaza","NodeData":{"Offset":"(-146.117264,105.357941)"},"ID":4,"Name":"Ve
+        Amenaza","Instant":true,"SharedTransformthreatTarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":null},"LayerMaskthreatLayer":0},{"Type":"CamuflajeDisponible","NodeData":{"Offset":"(-3.09405327,105.357971)"},"ID":5,"Name":"Camuflaje
+        Disponible","Instant":true,"Singlethreshold":20},{"Type":"Camuflarse","NodeData":{"Offset":"(143.417587,106.520752)"},"ID":6,"Name":"Camuflarse","Instant":true},{"Type":"HideNode","NodeData":{"Offset":"(262.259552,106.4137)"},"ID":7,"Name":"Hide
+        Node","Instant":true,"SharedTransformthreat":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":null}}]}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(248.1781,108.2505)"},"ID":8,"Name":"MiedoAlto","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"MiedoAlto","NodeData":{"Offset":"(-45.699646,120.699524)"},"ID":9,"Name":"Miedo
+        Alto","Instant":true,"Singlethreshold":70},{"Type":"LiberarTinta","NodeData":{"Offset":"(56.3412476,123.760742)"},"ID":10,"Name":"Liberar
+        Tinta","Instant":true},{"Type":"EvadeNode","NodeData":{"Offset":"(170.626953,119.679108)"},"ID":11,"Name":"Evade
+        Node","Instant":true}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(623.688,108.250519)"},"ID":12,"Name":"HambreAlta","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"HambreAlta","NodeData":{"Offset":"(-49.37329,120.699554)"},"ID":13,"Name":"Hambre
+        Alta","Instant":true,"Singlethreshold":70},{"Type":"BuscarComida","NodeData":{"Offset":"(59.8105469,115.597473)"},"ID":14,"Name":"Buscar
+        Comida","Instant":true},{"Type":"Comer","NodeData":{"Offset":"(182.259521,121.71994)"},"ID":15,"Name":"Comer","Instant":true}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(975.5864,112.830505)"},"ID":16,"Name":"CamuflajeBajo","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"CamuflajeBajo","NodeData":{"Offset":"(-36.9719238,116.783966)"},"ID":17,"Name":"Camuflaje
+        Bajo","Instant":true,"Singlethreshold":20},{"Type":"RecargarCamuflaje","NodeData":{"Offset":"(93.26074,121.43515)"},"ID":18,"Name":"Recargar
+        Camuflaje","Instant":true}]},{"Type":"WanderNode","NodeData":{"Offset":"(1261.85486,127.05864)"},"ID":19,"Name":"Wander
+        Node","Instant":true}]}}'
+      fieldSerializationData:
+        typeName: []
+        fieldNameHash: 
+        startIndex: 
+        dataPosition: 
+        unityObjects: []
+        byteData: 
+        byteDataArray: 
+      Version: 1.7.13

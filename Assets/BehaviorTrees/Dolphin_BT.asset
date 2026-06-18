@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b23f08d2ae4cba14087c1ed36193d82b, type: 3}
+  m_Name: Dolphin_BT
+  m_EditorClassIdentifier: Assembly-CSharp::BehaviorDesigner.Runtime.ExternalBehaviorTree
+  mBehaviorSource:
+    behaviorName: Behavior
+    behaviorDescription: 
+    mTaskData:
+      types: []
+      parentIndex: 
+      startIndex: 
+      variableStartIndex: 
+      JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(96,-76)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(-4,124)"},"ID":1,"Name":"Selector","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(-115,124)"},"ID":2,"Name":"MiedoAlto","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(3,113)"},"ID":3,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"VeDepredador","NodeData":{"Offset":"(-161.1848,134.061584)"},"ID":4,"Name":"Ve
+        Depredador","Instant":true,"SharedTransformdetectedTarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":null}},{"Type":"EvadeNode","NodeData":{"Offset":"(-37.22647,128.853271)"},"ID":5,"Name":"Evade
+        Node","Instant":true},{"Type":"Saltar","NodeData":{"Offset":"(69.02352,130.936615)"},"ID":6,"Name":"Saltar","Instant":true}]}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(126.176231,133.367126)"},"ID":7,"Name":"AireBajo","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"AireBajo","NodeData":{"Offset":"(-60.4904823,123.367134)"},"ID":8,"Name":"Aire
+        Bajo","Instant":true,"Singlethreshold":30},{"Type":"IrSuperficie","NodeData":{"Offset":"(58.3984566,125.589333)"},"ID":9,"Name":"Ir
+        Superficie","Instant":true}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(367.9043,131.088776)"},"ID":10,"Name":"EnergiaBaja","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"EnergiaBaja","NodeData":{"Offset":"(-20.3884277,116.942352)"},"ID":11,"Name":"Energia
+        Baja","Instant":true,"Singlethreshold":30},{"Type":"NadarLento","NodeData":{"Offset":"(93.0261841,121.820465)"},"ID":12,"Name":"Nadar
+        Lento","Instant":true}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(655.709167,117.674164)"},"ID":13,"Name":"Wander","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(5.46521,114.747314)"},"ID":14,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"EsferaCercana","NodeData":{"Offset":"(-75.13428,128.860535)"},"ID":15,"Name":"Esfera
+        Cercana","Instant":true,"Singlerange":10},{"Type":"JugarConEsfera","NodeData":{"Offset":"(48.1990967,135.527191)"},"ID":16,"Name":"Jugar
+        Con Esfera","Instant":true}]},{"Type":"WanderNode","NodeData":{"Offset":"(184.865479,112.19397)"},"ID":17,"Name":"Wander
+        Node","Instant":true}]}]}}'
+      fieldSerializationData:
+        typeName: []
+        fieldNameHash: 
+        startIndex: 
+        dataPosition: 
+        unityObjects: []
+        byteData: 
+        byteDataArray: 
+      Version: 1.7.13

@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b23f08d2ae4cba14087c1ed36193d82b, type: 3}
+  m_Name: Diver_BT
+  m_EditorClassIdentifier: Assembly-CSharp-firstpass::BehaviorDesigner.Runtime.ExternalBehaviorTree
+  mBehaviorSource:
+    behaviorName: Behavior
+    behaviorDescription: 
+    mTaskData:
+      types: []
+      parentIndex: 
+      startIndex: 
+      variableStartIndex: 
+      JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(455,-27)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(-4.999996,103.769257)"},"ID":1,"Name":"Selector","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-127,124)"},"ID":2,"Name":"OxigenoBajo","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"OxigenoBajo","NodeData":{"Offset":"(-91,108)"},"ID":3,"Name":"Oxigeno
+        Bajo","Instant":true,"Singlethreshold":30},{"Type":"IrSuperficie","NodeData":{"Offset":"(44,116)"},"ID":4,"Name":"Ir
+        Superficie","Instant":true}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(87,129)"},"ID":5,"Name":"EnergiaBaja","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"EnergiaBaja","NodeData":{"Offset":"(-65,112)"},"ID":6,"Name":"Energia
+        Baja","Instant":true,"Singlethreshold":30},{"Type":"Descansar","NodeData":{"Offset":"(47,108)"},"ID":7,"Name":"Descansar","Instant":true}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(283,121)"},"ID":8,"Name":"MunicionBaja","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"MunicionBaja","NodeData":{"Offset":"(-25,105)"},"ID":9,"Name":"Municion
+        Baja","Instant":true,"Int32threshold":2},{"Type":"RecargarMunicion","NodeData":{"Offset":"(113,105)"},"ID":10,"Name":"Recargar
+        Municion","Instant":true}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(548,106)"},"ID":11,"Name":"VeCriatura","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"VePresa","NodeData":{"Offset":"(-27,106)"},"ID":12,"Name":"Ve
+        Presa","Instant":true,"SharedTransformdetectedTarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":null},"LayerMaskpreyLayer":0},{"Type":"TieneMunicion","NodeData":{"Offset":"(80,114)"},"ID":13,"Name":"Tiene
+        Municion","Instant":true},{"Type":"PursuitNode","NodeData":{"Offset":"(203,111)"},"ID":14,"Name":"Pursuit
+        Node","Instant":true,"SharedTransformtarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":null}},{"Type":"PresaAlcance","NodeData":{"Offset":"(305,109)"},"ID":15,"Name":"Presa
+        Alcance","Instant":true,"SharedTransformtarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":null},"Singlerange":5},{"Type":"AttackNode","NodeData":{"Offset":"(415,110)"},"ID":16,"Name":"Attack
+        Node","Instant":true,"SharedTransformtarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":null}}]},{"Type":"Explorar","NodeData":{"Offset":"(1137.57153,139.857178)"},"ID":17,"Name":"Explorar","Instant":true}]}}'
+      fieldSerializationData:
+        typeName: []
+        fieldNameHash: 
+        startIndex: 
+        dataPosition: 
+        unityObjects: []
+        byteData: 
+        byteDataArray: 
+      Version: 1.7.13
