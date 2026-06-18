@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.AI;
 
 public abstract class SteeringBehavior : MonoBehaviour
 {
@@ -23,10 +24,12 @@ public class SteeringManager : MonoBehaviour
     public bool isMoving = false;
 
     private Rigidbody rb;
+    private NavMeshAgent agent;
     private List<SteeringBehavior> behaviors = new List<SteeringBehavior>();
 
     void Start()
     {
+        agent = GetComponent<NavMeshAgent>();
         rb = GetComponent<Rigidbody>();
         if (rb == null)
         {
@@ -37,9 +40,10 @@ public class SteeringManager : MonoBehaviour
         rb.constraints = RigidbodyConstraints.FreezeRotation;
     }
 
-    void FixedUpdate()
+    void Update()
     {
-        ApplySteering();
+        // Aplicar steering y mover al agente
+        ApplySteeringToAgent();
     }
 
     public void AddBehavior(SteeringBehavior behavior)
@@ -50,7 +54,6 @@ public class SteeringManager : MonoBehaviour
         }
     }
 
-    // ? SOLO UNA VEZ (eliminé la duplicada)
     public void RemoveBehavior(SteeringBehavior behavior)
     {
         if (behaviors.Contains(behavior))
@@ -77,7 +80,7 @@ public class SteeringManager : MonoBehaviour
         }
 
         steeringForce = Vector3.ClampMagnitude(steeringForce, maxForce);
-        velocity = Vector3.ClampMagnitude(velocity + steeringForce / mass * Time.fixedDeltaTime, maxSpeed);
+        velocity = Vector3.ClampMagnitude(velocity + steeringForce / mass * Time.deltaTime, maxSpeed);
 
         if (target != null && Vector3.Distance(transform.position, target) < stopDistance)
         {
@@ -101,6 +104,21 @@ public class SteeringManager : MonoBehaviour
         }
     }
 
+    public void ApplySteeringToAgent()
+    {
+        if (agent == null) return;
+
+        // Calcular la fuerza de steering
+        ApplySteering();
+
+        // Aplicar la velocidad calculada al NavMeshAgent
+        if (velocity.magnitude > 0.1f)
+        {
+            Vector3 targetPosition = transform.position + velocity * Time.deltaTime;
+            agent.SetDestination(targetPosition);
+        }
+    }
+
     public void SetTarget(Vector3 newTarget)
     {
         target = newTarget;
@@ -116,6 +134,7 @@ public class SteeringManager : MonoBehaviour
         velocity = Vector3.zero;
         rb.velocity = Vector3.zero;
         isMoving = false;
+        if (agent != null) agent.isStopped = true;
     }
 
     public void AddForce(Vector3 force)

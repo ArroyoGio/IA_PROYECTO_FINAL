@@ -25,12 +25,12 @@ MonoBehaviour:
         Superficie","Instant":true}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(87,129)"},"ID":5,"Name":"EnergiaBaja","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"EnergiaBaja","NodeData":{"Offset":"(-65,112)"},"ID":6,"Name":"Energia
         Baja","Instant":true,"Singlethreshold":30},{"Type":"Descansar","NodeData":{"Offset":"(47,108)"},"ID":7,"Name":"Descansar","Instant":true}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(283,121)"},"ID":8,"Name":"MunicionBaja","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"MunicionBaja","NodeData":{"Offset":"(-25,105)"},"ID":9,"Name":"Municion
         Baja","Instant":true,"Int32threshold":2},{"Type":"RecargarMunicion","NodeData":{"Offset":"(113,105)"},"ID":10,"Name":"Recargar
-        Municion","Instant":true}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(548,106)"},"ID":11,"Name":"VeCriatura","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"VePresa","NodeData":{"Offset":"(-27,106)"},"ID":12,"Name":"Ve
-        Presa","Instant":true,"SharedTransformdetectedTarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":null},"LayerMaskpreyLayer":0},{"Type":"TieneMunicion","NodeData":{"Offset":"(80,114)"},"ID":13,"Name":"Tiene
+        Municion","Instant":true}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(548,106)"},"ID":11,"Name":"VeCriatura","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"VeCriatura","NodeData":{"Offset":"(-29.500061,110.333344)"},"ID":12,"Name":"Ve
+        Criatura","Instant":true,"SharedTransformdetectedTarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":null},"LayerMaskcreatureLayer":0},{"Type":"TieneMunicion","NodeData":{"Offset":"(80,114)"},"ID":13,"Name":"Tiene
         Municion","Instant":true},{"Type":"PursuitNode","NodeData":{"Offset":"(203,111)"},"ID":14,"Name":"Pursuit
-        Node","Instant":true,"SharedTransformtarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":null}},{"Type":"PresaAlcance","NodeData":{"Offset":"(305,109)"},"ID":15,"Name":"Presa
-        Alcance","Instant":true,"SharedTransformtarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":null},"Singlerange":5},{"Type":"AttackNode","NodeData":{"Offset":"(415,110)"},"ID":16,"Name":"Attack
-        Node","Instant":true,"SharedTransformtarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":null}}]},{"Type":"Explorar","NodeData":{"Offset":"(1137.57153,139.857178)"},"ID":17,"Name":"Explorar","Instant":true}]}}'
+        Node","Instant":true,"SharedTransformtarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":null}},{"Type":"CriaturaAlcance","NodeData":{"Offset":"(322.5,109.000031)"},"ID":15,"Name":"Criatura
+        Alcance","Instant":true,"SharedTransformtarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":null},"Singlerange":10},{"Type":"AttackNode","NodeData":{"Offset":"(445,110)"},"ID":16,"Name":"Attack
+        Node","Instant":true,"SharedTransformtarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":null}}]},{"Type":"Explorar","NodeData":{"Offset":"(1157.57153,149.857178)"},"ID":17,"Name":"Explorar","Instant":true}]}}'
       fieldSerializationData:
         typeName: []
         fieldNameHash: 

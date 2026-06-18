@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6685899557435991469}
   - component: {fileID: 4842067369481304492}
   - component: {fileID: 6061237366067729638}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: model
   m_TagString: Fish
   m_Icon: {fileID: 0}
@@ -124,13 +124,17 @@ GameObject:
   m_Component:
   - component: {fileID: 8156545826187493536}
   - component: {fileID: 8391574233773710571}
-  - component: {fileID: 7048336268605155364}
   - component: {fileID: 5292382330346052657}
-  - component: {fileID: 802708347172971765}
-  - component: {fileID: 6922528214927721242}
-  - component: {fileID: -4400872614454979983}
   - component: {fileID: 6593086835133572347}
-  m_Layer: 0
+  - component: {fileID: 802708347172971765}
+  - component: {fileID: 1327536068926533818}
+  - component: {fileID: 6744430691522407378}
+  - component: {fileID: 6922528214927721242}
+  - component: {fileID: 7085251193630995531}
+  - component: {fileID: 5028888538626196062}
+  - component: {fileID: -4400872614454979983}
+  - component: {fileID: 3584815931506902911}
+  m_Layer: 6
   m_Name: Fish
   m_TagString: Fish
   m_Icon: {fileID: 0}
@@ -163,7 +167,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.4
-  m_Speed: 3.5
+  m_Speed: 6
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -175,31 +179,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 2
---- !u!114 &7048336268605155364
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8905717951630493452}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7294bb060975fc74182f576fc2c78318, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::NPCBrain
-  speed: 3
-  wanderRadius: 15
-  rotationSpeed: 5
-  viewRadius: 15
-  viewAngle: 90
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  maxHealth: 50
-  health: 100
-  isImmortal: 0
-  hunger: 0
-  energy: 100
 --- !u!114 &5292382330346052657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,6 +191,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7187289e89cbb1459ea6fad58eb69d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Blackboard
+--- !u!114 &6593086835133572347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8905717951630493452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ac81c34fd2218d43832ca2bf4630631, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SteeringManager
+  maxSpeed: 3.5
+  maxForce: 10
+  mass: 1
+  stopDistance: 0.5
+  velocity: {x: 0, y: 0, z: 0}
+  steeringForce: {x: 0, y: 0, z: 0}
+  target: {x: 0, y: 0, z: 0}
+  isMoving: 0
 --- !u!114 &802708347172971765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -252,6 +251,41 @@ MonoBehaviour:
       Version: 
   gizmoViewMode: 2
   showBehaviorDesignerGizmo: 1
+--- !u!114 &1327536068926533818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8905717951630493452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65d719ba7e073cc478b8f7e9df06a186, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Wander
+  isActive: 1
+  weight: 1
+  wanderRadius: 3
+  wanderDistance: 5
+  wanderJitter: 0.5
+  wanderSpeed: 1
+--- !u!114 &6744430691522407378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8905717951630493452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d39d106fc3d26b1448f169b7eae46165, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Evade
+  isActive: 1
+  weight: 1
+  threat: {fileID: 0}
+  predictionTime: 2
+  evadeStrength: 1.5
 --- !u!114 &6922528214927721242
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,6 +303,49 @@ MonoBehaviour:
   leader: {fileID: 0}
   offset: {x: 0, y: 0, z: 0}
   pursuitStrength: 1
+--- !u!114 &7085251193630995531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8905717951630493452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d2c9ee7a6b783b4aa3ae7eecd8a85af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AIEyeBase
+  viewRadius: 15
+  viewAngle: 90
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  showGizmos: 1
+  visibleTargets: []
+--- !u!114 &5028888538626196062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8905717951630493452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2cefa9895051bb48a87eb83484e6635, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthNoCombat
+  maxHealth: 50
+  health: 50
+  armor: 0
+  isImmortal: 0
+  aiControl: {fileID: 0}
+  eye: {fileID: 0}
+  isBuilding: 0
+  isPickup: 0
+  deathEffect: {fileID: 0}
 --- !u!114 &-4400872614454979983
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -291,15 +368,15 @@ MonoBehaviour:
     m_Bits: 0
   fear: 0
   maxFear: 100
-  hunger: 0
+  hunger: 2
   maxHunger: 100
   energy: 100
   maxEnergy: 100
   hungerRate: 2
   energyConsumption: 1
   schoolLeader: {fileID: 0}
-  schoolDistance: 3
---- !u!114 &6593086835133572347
+  schoolDistance: 2.5
+--- !u!114 &3584815931506902911
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -308,14 +385,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 8905717951630493452}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ac81c34fd2218d43832ca2bf4630631, type: 3}
+  m_Script: {fileID: 11500000, guid: 96c9483310b92ff47b7d485e25b0ab48, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SteeringManager
-  maxSpeed: 5
+  m_EditorClassIdentifier: Assembly-CSharp::FishVehicleLand
+  steering: {fileID: 0}
+  health: {fileID: 0}
+  blackboard: {fileID: 0}
+  eye: {fileID: 0}
+  maxSpeed: 3.5
   maxForce: 10
   mass: 1
-  stopDistance: 0.5
-  velocity: {x: 0, y: 0, z: 0}
-  steeringForce: {x: 0, y: 0, z: 0}
-  target: {x: 0, y: 0, z: 0}
-  isMoving: 0
+  rb: {fileID: 0}
+  rotationSpeed: 5
+  schoolFormationStrength: 0.5

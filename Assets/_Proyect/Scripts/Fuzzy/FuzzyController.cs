@@ -1,4 +1,8 @@
 using UnityEngine;
+public enum NPCType
+{
+    Fish, Dolphin, Shark, Snake, Kraken, Octopus, Lobster, Diver, Sphere
+}
 
 public class FuzzyController : MonoBehaviour
 {
@@ -19,6 +23,9 @@ public class FuzzyController : MonoBehaviour
     private SteeringManager steering;
     private HealthBase health;
     private Blackboard blackboard;
+
+    public NPCType npcType;
+
 
     void Start()
     {
@@ -72,16 +79,18 @@ public class FuzzyController : MonoBehaviour
 
     float GetBaseSpeed()
     {
-        // Obtener velocidad base según el tipo de NPC
-        if (GetComponent<FishActionLand>() != null) return 3f;
-        if (GetComponent<DolphinActionLand>() != null) return 5f;
-        if (GetComponent<SharkActionLand>() != null) return 4f;
-        if (GetComponent<SnakeActionLand>() != null) return 3f;
-        if (GetComponent<KrakenActionLand>() != null) return 2f;
-        if (GetComponent<OctopusActionLand>() != null) return 2f;
-        if (GetComponent<LobsterActionLand>() != null) return 1.5f;
-        if (GetComponent<DiverActionLand>() != null) return 3f;
-        return 3f;
+        switch (npcType)
+        {
+            case NPCType.Fish: return 3f;
+            case NPCType.Dolphin: return 5f;
+            case NPCType.Shark: return 4f;
+            case NPCType.Snake: return 3f;
+            case NPCType.Kraken: return 2f;
+            case NPCType.Octopus: return 2f;
+            case NPCType.Lobster: return 1.5f;
+            case NPCType.Diver: return 3f;
+            default: return 3f;
+        }
     }
 
     public float GetSpeedMultiplier() => speedMultiplier;

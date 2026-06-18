@@ -26,8 +26,8 @@ MonoBehaviour:
         Cardumen","Instant":true}]}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(-0.94767,107.549713)"},"ID":7,"Name":"HambreAlta","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(1.443573,101.680145)"},"ID":8,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BuscarComida","NodeData":{"Offset":"(-80.29578,105.158386)"},"ID":9,"Name":"Buscar
         Comida","Instant":true},{"Type":"ComidaEncontrada","NodeData":{"Offset":"(52.3129272,113.854034)"},"ID":10,"Name":"Comida
         Encontrada","Instant":true,"SinglesearchRadius":10},{"Type":"Comer","NodeData":{"Offset":"(180.573792,111.680145)"},"ID":11,"Name":"Comer","Instant":true}]}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(385.0084,109.130432)"},"ID":12,"Name":"EnergiaBaja","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(3.043213,106.521729)"},"ID":13,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"EnergiaBaja","NodeData":{"Offset":"(-51.4346771,100.300415)"},"ID":14,"Name":"Energia
-        Baja","Instant":true,"Singlethreshold":30},{"Type":"Descansar","NodeData":{"Offset":"(65.87968,104.834694)"},"ID":15,"Name":"Descansar","Instant":true}]}]},{"Type":"MantenerCardumen","NodeData":{"Offset":"(655.3787,123.579559)"},"ID":16,"Name":"Mantener
-        Cardumen","Instant":true},{"Type":"WanderNode","NodeData":{"Offset":"(852.6426,126.571411)"},"ID":17,"Name":"Wander
+        Baja","Instant":true,"Singlethreshold":30},{"Type":"Descansar","NodeData":{"Offset":"(65.87968,104.834694)"},"ID":15,"Name":"Descansar","Instant":true}]}]},{"Type":"MantenerCardumen","NodeData":{"Offset":"(622.77,134.449127)"},"ID":16,"Name":"Mantener
+        Cardumen","Instant":true},{"Type":"WanderNode","NodeData":{"Offset":"(798.294739,115.701843)"},"ID":17,"Name":"Wander
         Node","Instant":true}]}}'
       fieldSerializationData:
         typeName: []
