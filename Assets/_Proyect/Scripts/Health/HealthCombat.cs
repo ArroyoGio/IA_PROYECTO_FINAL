@@ -1,97 +1,55 @@
 using UnityEngine;
+using UnityEngine.AI;
 
-    public class HealthCombat : HealthIA
+public class HealthCombat : Health
+{
+    [Header("Combat Settings")]
+    public float armor = 5f;
+    public ParticleSystem hitParticles;
+    public ParticleSystem deathParticles;
+    public AudioClip deathSound;
+ 
+
+    protected override void Awake()
     {
-        [Header("Combat Settings")]
-        public ParticleSystem deathParticles;
-        public GameObject ragdollPrefab;
-        public float respawnTime = 5f;
-        public Transform respawnPoint;
+        base.Awake();
+        
+    }
 
-        public override void ApplyDamage(float damage, WeaponType type)
+    public override void TakeDamage(float damage)
+    {
+        if (IsDead) return;
+
+        float finalDamage = Mathf.Max(0f, damage - armor);
+
+        base.TakeDamage(finalDamage);
+
+        if (hitParticles != null)
         {
-            SetHurtingMe(GetLastAttacker());
-            base.ApplyDamage(damage, type);
-
-            // Activar modo defensivo si está en peligro
-            if (IsDangerHealth)
-            {
-                var blackboard = GetComponent<Blackboard>();
-                if (blackboard != null)
-                {
-                    blackboard.SetBool("IsDanger", true);
-                }
-            }
+            Instantiate(hitParticles, transform.position, Quaternion.identity);
         }
 
-        GameObject GetLastAttacker()
+        Blackboard blackboard = GetComponent<Blackboard>();
+        if (blackboard != null)
         {
-            // Buscar el último atacante en el blackboard
-            var blackboard = GetComponent<Blackboard>();
-            if (blackboard != null)
-            {
-                return blackboard.GetObject("LastAttacker") as GameObject;
-            }
-            return null;
-        }
-
-        public override void Death()
-        {
-            base.Death();
-
-            // Desactivar NavMeshAgent
-            var agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
-            if (agent != null) agent.enabled = false;
-
-            // Partículas de muerte
-            if (deathParticles != null)
-            {
-                Instantiate(deathParticles, transform.position, Quaternion.identity);
-            }
-
-            // Ragdoll
-            if (ragdollPrefab != null)
-            {
-                Instantiate(ragdollPrefab, transform.position, transform.rotation);
-            }
-
-            // Desactivar el NPC
-            gameObject.SetActive(false);
-
-            // Notificar al Behavior Tree
-            var blackboard = GetComponent<Blackboard>();
-            if (blackboard != null)
-            {
-                blackboard.SetBool("IsDead", true);
-            }
-
-            // Programar respawn
-            Invoke(nameof(Respawn), respawnTime);
-        }
-
-        public virtual void Respawn()
-        {
-            Vector3 spawnPosition = respawnPoint != null ? respawnPoint.position : Vector3.zero;
-
-            gameObject.transform.position = spawnPosition;
-
-            var agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
-            if (agent != null) agent.enabled = true;
-
-            Active();
-
-            var blackboard = GetComponent<Blackboard>();
-            if (blackboard != null)
-            {
-                blackboard.SetBool("IsDead", false);
-                blackboard.SetBool("IsDanger", false);
-            }
-        }
-
-        public override void Active()
-        {
-            base.Active();
-            var agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
-            if (agent != null) agent.enabled = true;
+            blackboard.SetBool("IsHurt", true);
         }
     }
+
+    public override void Die()
+    {
+        base.Die();
+ 
+        if (deathParticles != null)
+        {
+            Instantiate(deathParticles, transform.position, Quaternion.identity);
+        }
+
+        if (deathSound != null)
+        {
+            AudioSource.PlayClipAtPoint(deathSound, transform.position);
+        }
+
+        gameObject.SetActive(false);
+    }
+}

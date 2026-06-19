@@ -4,26 +4,40 @@ public abstract class PredatorActionLand : AICharacterAction
 {
     [Header("Predator Settings")]
     public float attackRange = 5f;
-
-    public virtual void Pursue(Transform target)
+    [Header("Predator damage")]
+    public float attackDamage = 25f;
+    [Header("Predator Settings")]
+ 
+    public float aggressiveness = 50f;
+    public float huntingRange = 20f;
+    [Header("Predator WeaponType")]
+    public WeaponType weaponType;
+    public override void LoadComponent()
     {
-        var pursuit = GetComponent<Pursuit>();
-        if (pursuit != null && target != null)
+        base.LoadComponent();
+
+    }
+    protected void BlackboardPresaAlcance()
+    {
+        if (blackboard != null)
         {
-            pursuit.SetTarget(target);
-            pursuit.isActive = true;
-            steering.AddBehavior(pursuit);
+            blackboard.SetBool("PresaAlcance", IsTargetInRange(eye.ViewEnemy?.transform));
         }
     }
-
+    public override void UpdateAI()
+    {
+       base.UpdateAI();
+       BlackboardPresaAlcance();
+    }
+     
     public virtual void Attack(Transform target)
     {
-        if (target != null && Vector3.Distance(transform.position, target.position) < attackRange)
+        if (target != null && IsTargetInRange(target))
         {
             HealthBase health = target.GetComponent<HealthBase>();
             if (health != null)
             {
-                health.ApplyDamage(25f, WeaponType.Normal);
+                health.ApplyDamage(attackDamage, weaponType);
             }
         }
     }

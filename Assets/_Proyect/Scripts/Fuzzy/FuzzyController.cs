@@ -16,13 +16,13 @@ public class FuzzyController : MonoBehaviour
     public float speedMultiplier = 1f;
     public float aggressivenessMultiplier = 1f;
 
-    private SteeringManager steering;
+    //private SteeringManager steering;
     private HealthBase health;
     private Blackboard blackboard;
 
     void Start()
     {
-        steering = GetComponent<SteeringManager>();
+        //steering = GetComponent<SteeringManager>();
         health = GetComponent<HealthBase>();
         blackboard = GetComponent<Blackboard>();
     }
@@ -56,33 +56,33 @@ public class FuzzyController : MonoBehaviour
         aggressivenessMultiplier = healthToAggressiveness.Evaluate(currentHealth);
 
         // Aplicar al SteeringManager
-        if (steering != null)
-        {
-            // Velocidad base * multiplicador difuso
-            float baseSpeed = GetBaseSpeed();
-            steering.maxSpeed = baseSpeed * speedMultiplier;
+        //if (steering != null)
+        //{
+        //    // Velocidad base * multiplicador difuso
+        //    float baseSpeed = GetBaseSpeed();
+        //    steering.maxSpeed = baseSpeed * speedMultiplier;
 
-            // Si está cazando, aumentar velocidad
-            if (blackboard != null && blackboard.GetBool("IsHunting", false))
-            {
-                steering.maxSpeed *= 1.5f;
-            }
-        }
+        //    // Si está cazando, aumentar velocidad
+        //    if (blackboard != null && blackboard.GetBool("IsHunting", false))
+        //    {
+        //        steering.maxSpeed *= 1.5f;
+        //    }
+        //}
     }
 
-    float GetBaseSpeed()
-    {
-        // Obtener velocidad base según el tipo de NPC
-        if (GetComponent<FishActionLand>() != null) return 3f;
-        if (GetComponent<DolphinActionLand>() != null) return 5f;
-        if (GetComponent<SharkActionLand>() != null) return 4f;
-        if (GetComponent<SnakeActionLand>() != null) return 3f;
-        if (GetComponent<KrakenActionLand>() != null) return 2f;
-        if (GetComponent<OctopusActionLand>() != null) return 2f;
-        if (GetComponent<LobsterActionLand>() != null) return 1.5f;
-        if (GetComponent<DiverActionLand>() != null) return 3f;
-        return 3f;
-    }
+    //float GetBaseSpeed()
+    //{
+    //    // Obtener velocidad base según el tipo de NPC
+    //    if (GetComponent<FishActionLand>() != null) return 3f;
+    //    if (GetComponent<DolphinActionLand>() != null) return 5f;
+    //    if (GetComponent<SharkActionLand>() != null) return 4f;
+    //    if (GetComponent<SnakeActionLand>() != null) return 3f;
+    //    if (GetComponent<KrakenActionLand>() != null) return 2f;
+    //    if (GetComponent<OctopusActionLand>() != null) return 2f;
+    //    if (GetComponent<LobsterActionLand>() != null) return 1.5f;
+    //    if (GetComponent<DiverActionLand>() != null) return 3f;
+    //    return 3f;
+    //}
 
     public float GetSpeedMultiplier() => speedMultiplier;
     public float GetAggressivenessMultiplier() => aggressivenessMultiplier;

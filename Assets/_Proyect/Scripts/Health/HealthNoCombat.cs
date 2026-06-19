@@ -1,49 +1,32 @@
 using UnityEngine;
+using UnityEngine.AI;
 
-public class HealthNoCombat : HealthIA
+public class HealthNoCombat : Health
 {
     [Header("No Combat Settings")]
-    public bool isBuilding = false;
-    public bool isPickup = false;
-    public ParticleSystem deathEffect;
+    public float regenerationRate = 0.5f;
+    public bool autoRegenerate = true;
 
-    public override void ApplyDamage(float damage, WeaponType type)
+   
+
+    protected override void Awake()
     {
-        // Sin armadura, daño directo
-        health -= damage;
-        health = Mathf.Clamp(health, 0, maxHealth);
-
-        OnDamageReceived?.Invoke(damage, type);
-
-        if (IsDead)
-        {
-            Death();
-        }
+        base.Awake();
+        
     }
 
-    public override void Death()
+    protected virtual void Update()
     {
-        base.Death();
+        if (!autoRegenerate || IsDead) return;
 
-        if (deathEffect != null)
-        {
-            Instantiate(deathEffect, transform.position, Quaternion.identity);
-        }
+        Heal(regenerationRate * Time.deltaTime);
+    }
 
-        if (isBuilding || isPickup)
-        {
-            gameObject.SetActive(false);
-        }
-        else
-        {
-            gameObject.SetActive(false);
-        }
+    public override void Die()
+    {
+        base.Die();
 
-        // Notificar al Behavior Tree
-        var blackboard = GetComponent<Blackboard>();
-        if (blackboard != null)
-        {
-            blackboard.SetBool("IsDead", true);
-        }
+        
+        gameObject.SetActive(false);
     }
 }

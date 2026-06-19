@@ -2,46 +2,32 @@ using UnityEngine;
 
 public abstract class PredatorVehicleLand : AICharacterVehicle
 {
-    [Header("Predator Vehicle Settings")]
-    public float rotationSpeed = 5f;
-    public float attackSpeedMultiplier = 1.5f;
-
-    public override void Move(Vector3 target)
+     
+    public override void LoadComponent()
     {
-        if (rb == null) return;
+        base.LoadComponent();
 
-        Vector3 direction = (target - transform.position).normalized;
-        float currentMaxSpeed = maxSpeed;
-
-        // Si está atacando, aumentar velocidad
-        if (blackboard != null && blackboard.GetBool("IsAttacking", false))
-        {
-            currentMaxSpeed *= attackSpeedMultiplier;
-        }
-
-        Vector3 desiredVelocity = direction * currentMaxSpeed;
-        Vector3 steeringForce = desiredVelocity - rb.velocity;
-        steeringForce = Vector3.ClampMagnitude(steeringForce, maxForce);
-
-        rb.AddForce(steeringForce, ForceMode.Force);
-
-        if (rb.velocity.magnitude > 0.1f)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(rb.velocity.normalized);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
-        }
     }
 
-    public void AttackMove(Transform target)
+    protected void EvadeEnemy()
+    { 
+       if(eye.ViewEnemy != null)
+       {
+           // LÃ³gica para evadir al enemigo
+           EvadeBehaviour(eye.ViewEnemy.transform,transform.forward*10f);
+       }
+    }
+    protected void SeguirEnemy()
     {
-        if (target != null)
+        if (eye.ViewEnemy != null)
         {
-            Move(target.position);
+            // LÃ³gica para seguir al enemigo
+            ArriveBehaviour(eye.ViewEnemy.transform.position, 2f);
         }
     }
-
-    public override void UpdateAI()
-    {
-        // Las clases hijas implementan su lógica específica
+    protected void Patrullar()
+            {
+        // LÃ³gica para patrullar el Ã¡rea
+        WanderBehaviour();
     }
 }

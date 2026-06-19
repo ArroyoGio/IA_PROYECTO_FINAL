@@ -5,37 +5,37 @@ public abstract class PreyActionLand : AICharacterAction
     [Header("Prey Settings")]
     public float fear = 0f;
     public float maxFear = 100f;
-
-    public virtual void Evade()
+    public float DownMiedoAlto = 100f;
+    void Awake()
     {
-        var evade = GetComponent<Evade>();
-        if (evade != null)
-        {
-            Transform threat = eye.GetNearestTarget();
-            if (threat != null)
+        LoadComponent();
+    }
+    public override void LoadComponent()
+    {
+        base.LoadComponent();
+
+    }
+    public override void UpdateAI()
+    {
+        base.UpdateAI();
+        UpdateFear();
+    }
+    protected void UpdateFear()
             {
-                evade.SetThreat(threat);
-                evade.isActive = true;
-                steering.AddBehavior(evade);
-            }
+        if (eye.ViewEnemy)
+        {
+            fear += 8f * Time.deltaTime;
+        }
+        else
+        {
+            fear -= 2f * Time.deltaTime;
+        }
+        fear = Mathf.Clamp(fear, 0, maxFear);
+        if (blackboard != null)
+        {
+            blackboard.SetFloat("Fear", fear);
+            blackboard.SetBool("MiedoAlto", fear > DownMiedoAlto);
+            blackboard.SetBool("VeDepredador", eye.ViewEnemy!=null);
         }
     }
-
-    public virtual void JoinSchool()
-    {
-        Collider[] fish = Physics.OverlapSphere(transform.position, 10f, LayerMask.GetMask("Fish"));
-        if (fish.Length > 1)
-        {
-            Vector3 center = Vector3.zero;
-            foreach (var f in fish)
-            {
-                center += f.transform.position;
-            }
-            center /= fish.Length;
-            steering.SetTarget(center);
-        }
-    }
-
-    public virtual void Rest() { }
-    public virtual void FindFood() { }
 }

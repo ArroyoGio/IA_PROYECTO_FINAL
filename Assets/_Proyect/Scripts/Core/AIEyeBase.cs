@@ -1,53 +1,62 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-    public class AIEyeBase : MonoBehaviour
+public abstract class AIEyeBase : MonoBehaviour
+{
+    [Header("Vision Settings")]
+    public float viewRadius = 15f;
+    public float viewAngle = 90f;
+    public LayerMask targetLayer;
+    public LayerMask obstacleLayer;
+
+    [Header("Debug")]
+    public bool showGizmos = true;
+    protected List<Transform> visibleTargets = new List<Transform>();
+    protected Blackboard blackboard;
+
+    protected virtual void Awake()
     {
-        [Header("Vision Settings")]
-        public float viewRadius = 15f;
-        public float viewAngle = 90f;
-        public LayerMask targetLayer;
-        public LayerMask obstacleLayer;
+        blackboard = GetComponent<Blackboard>();
+    }
 
-        [Header("Debug")]
-        public bool showGizmos = true;
-        public List<Transform> visibleTargets = new List<Transform>();
+    protected virtual void Update()
+    {
+        FindVisibleTargets();
+        UpdateBlackboard();
+    }
 
-        void Update()
+    protected virtual void FindVisibleTargets()
+    {
+        visibleTargets.Clear();
+
+        Collider[] targetsInRadius = Physics.OverlapSphere(transform.position, viewRadius, targetLayer);
+
+        foreach (var target in targetsInRadius)
         {
-            FindVisibleTargets();
-        }
+            Transform targetTransform = target.transform;
+            Vector3 directionToTarget = (targetTransform.position - transform.position).normalized;
 
-        void FindVisibleTargets()
-        {
-            visibleTargets.Clear();
+            float angle = Vector3.Angle(transform.forward, directionToTarget);
 
-            Collider[] targetsInRadius = Physics.OverlapSphere(transform.position, viewRadius, targetLayer);
-
-            foreach (var target in targetsInRadius)
+            if (angle <= viewAngle / 2)
             {
-                Transform targetTransform = target.transform;
-                Vector3 directionToTarget = (targetTransform.position - transform.position).normalized;
-
-                float angle = Vector3.Angle(transform.forward, directionToTarget);
-
-                if (angle <= viewAngle / 2)
+                float distance = Vector3.Distance(transform.position, targetTransform.position);
+                if (!Physics.Raycast(transform.position, directionToTarget, distance, obstacleLayer))
                 {
-                    float distance = Vector3.Distance(transform.position, targetTransform.position);
-                    if (!Physics.Raycast(transform.position, directionToTarget, distance, obstacleLayer))
-                    {
-                        visibleTargets.Add(targetTransform);
-                    }
+                    visibleTargets.Add(targetTransform);
                 }
             }
         }
+    }
 
-        public Transform GetNearestTarget()
-        {
-            Transform nearest = null;
-            float nearestDistance = float.MaxValue;
+    protected abstract void UpdateBlackboard();
 
-            foreach (var target in visibleTargets)
+    public Transform GetNearestTarget()
+    {
+        Transform nearest = null;
+        float nearestDistance = float.MaxValue;
+
+        foreach (var target in visibleTargets)
             {
                 float distance = Vector3.Distance(transform.position, target.position);
                 if (distance < nearestDistance)

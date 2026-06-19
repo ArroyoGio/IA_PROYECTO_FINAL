@@ -2,31 +2,24 @@ using UnityEngine;
 
 public abstract class PreyVehicleLand : AICharacterVehicle
 {
-    [Header("Prey Vehicle Settings")]
-    public float rotationSpeed = 5f;
-
-    public override void Move(Vector3 target)
+    public override void LoadComponent()
     {
-        if (rb == null) return;
+        base.LoadComponent();
 
-        Vector3 direction = (target - transform.position).normalized;
-        Vector3 desiredVelocity = direction * maxSpeed;
+    }
 
-        Vector3 steeringForce = desiredVelocity - rb.velocity;
-        steeringForce = Vector3.ClampMagnitude(steeringForce, maxForce);
-
-        rb.AddForce(steeringForce, ForceMode.Force);
-
-        // Rotar hacia la dirección del movimiento
-        if (rb.velocity.magnitude > 0.1f)
+    protected void EvadeEnemy()
+    {
+        if (eye.ViewEnemy != null)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(rb.velocity.normalized);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
+            // LÃ³gica para evadir al enemigo
+            EvadeBehaviour(eye.ViewEnemy.transform, transform.forward * 10f);
         }
     }
-
-    public override void UpdateAI()
+    protected void Patrullar()
     {
-        // Las clases hijas implementan su lógica específica
+        // LÃ³gica para patrullar el Ã¡rea
+        WanderBehaviour();
     }
+
 }
