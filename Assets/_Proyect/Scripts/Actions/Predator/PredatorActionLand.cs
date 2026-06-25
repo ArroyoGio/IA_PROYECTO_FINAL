@@ -3,7 +3,7 @@ using UnityEngine;
 public abstract class PredatorActionLand : AICharacterAction
 {
     [Header("Predator Settings")]
-    public float attackRange = 5f;
+    public float attackRange = 10f;
     public float attackDamage = 25f;
     public float aggressiveness = 50f;
     public float huntingRange = 20f;
@@ -28,12 +28,18 @@ public abstract class PredatorActionLand : AICharacterAction
     public virtual void Attack(Transform target)
     {
         if (target == null) return;
-        if (!IsTargetInRange(target)) return;
+
+        float distance = Vector3.Distance(transform.position, target.position);
+
+        if (distance > attackRange)
+            return;
 
         HealthBase health = target.GetComponentInParent<HealthBase>();
 
         if (health != null)
+        {
             health.ApplyDamage(attackDamage, weaponType);
+        }
     }
     public virtual bool IsTargetInRange(Transform target)
     {

@@ -6,12 +6,4 @@ public class FishVehicleLand : PreyVehicleLand
     {
         LoadComponent();
     }
-
-    private void Update()
-    {
-        if (SeeEnemy())
-            EvadeEnemy();
-        else
-            Patrullar();
-    }
 }

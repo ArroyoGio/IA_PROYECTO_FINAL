@@ -12,7 +12,7 @@ public abstract class PreyVehicleLand : AICharacterVehicle
         return eye != null && eye.ViewEnemy != null;
     }
 
-    protected void EvadeEnemy()
+    public void EvadeEnemy()
     {
         if (!SeeEnemy()) return;
 
@@ -27,7 +27,7 @@ public abstract class PreyVehicleLand : AICharacterVehicle
         EvadeBehaviour(eye.ViewEnemy.transform, enemyVelocity);
     }
 
-    protected void Patrullar()
+    public void Patrullar()
     {
         WanderBehaviour();
     }

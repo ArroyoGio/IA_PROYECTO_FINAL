@@ -391,6 +391,7 @@ GameObject:
   - component: {fileID: 395240994}
   - component: {fileID: 395240996}
   - component: {fileID: 395240995}
+  - component: {fileID: 395240999}
   m_Layer: 7
   m_Name: BabyShark
   m_TagString: Predator
@@ -423,7 +424,7 @@ Transform:
   m_GameObject: {fileID: 395240989}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 101.32, y: 0, z: 141.89}
+  m_LocalPosition: {x: 101.32, y: 0, z: 127.5}
   m_LocalScale: {x: 7, y: 7, z: 7}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -520,11 +521,12 @@ MonoBehaviour:
   UpHambreAlta: 70
   UpHambreMedia: 30
   UpEnergiaBaja: 30
-  attackRange: 5
+  attackRange: 15
   attackDamage: 25
   aggressiveness: 50
   huntingRange: 20
   weaponType: 0
+  attackCooldown: 1.5
 --- !u!114 &395240997
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -564,6 +566,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7187289e89cbb1459ea6fad58eb69d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Blackboard
+--- !u!114 &395240999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 395240989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d7b55c7ecdb49a4a89fa5e6f9022861, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp-firstpass::BehaviorDesigner.Runtime.BehaviorTree
+  startWhenEnabled: 1
+  asynchronousLoad: 0
+  pauseWhenDisabled: 0
+  restartWhenComplete: 0
+  logTaskChanges: 0
+  group: 0
+  resetValuesOnRestart: 0
+  externalBehavior: {fileID: 11400000, guid: 2c6e99b4b376b4248b42c9817661c13a, type: 2}
+  mBehaviorSource:
+    behaviorName: Behavior
+    behaviorDescription: 
+    mTaskData:
+      types: []
+      parentIndex: 
+      startIndex: 
+      variableStartIndex: 
+      JSONSerialization: 
+      fieldSerializationData:
+        typeName: []
+        fieldNameHash: 
+        startIndex: 
+        dataPosition: 
+        unityObjects: []
+        byteData: 
+        byteDataArray: 
+      Version: 
+  gizmoViewMode: 2
+  showBehaviorDesignerGizmo: 1
 --- !u!4 &491697925 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4701466884731504162, guid: 5dfbc315002f869488c21987fa834486, type: 3}
@@ -1436,6 +1478,7 @@ GameObject:
   - component: {fileID: 914440954448535774}
   - component: {fileID: 914440954448535778}
   - component: {fileID: 914440954448535779}
+  - component: {fileID: 914440954448535780}
   m_Layer: 8
   m_Name: TunaFish
   m_TagString: Prey
@@ -1749,6 +1792,46 @@ MonoBehaviour:
   health: 100
   armor: 0
   isImmortal: 0
+--- !u!114 &914440954448535780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 575176078650849894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d7b55c7ecdb49a4a89fa5e6f9022861, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp-firstpass::BehaviorDesigner.Runtime.BehaviorTree
+  startWhenEnabled: 1
+  asynchronousLoad: 0
+  pauseWhenDisabled: 0
+  restartWhenComplete: 0
+  logTaskChanges: 0
+  group: 0
+  resetValuesOnRestart: 0
+  externalBehavior: {fileID: 11400000, guid: 41a1d66af7080ba4c9c3e593ebf84ccf, type: 2}
+  mBehaviorSource:
+    behaviorName: Behavior
+    behaviorDescription: 
+    mTaskData:
+      types: []
+      parentIndex: 
+      startIndex: 
+      variableStartIndex: 
+      JSONSerialization: 
+      fieldSerializationData:
+        typeName: []
+        fieldNameHash: 
+        startIndex: 
+        dataPosition: 
+        unityObjects: []
+        byteData: 
+        byteDataArray: 
+      Version: 
+  gizmoViewMode: 2
+  showBehaviorDesignerGizmo: 1
 --- !u!4 &981697235758278168
 Transform:
   m_ObjectHideFlags: 0

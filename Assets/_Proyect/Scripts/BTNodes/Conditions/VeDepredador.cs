@@ -1,19 +1,19 @@
-using UnityEngine;
-using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
+using UnityEngine;
 
-public class VeDepredador : Conditional
+public class ConditionVeDepredador : Conditional
 {
-    public SharedTransform detectedTarget;
+    private AIEye eye;
+
+    public override void OnAwake()
+    {
+        eye = GetComponent<AIEye>();
+    }
 
     public override TaskStatus OnUpdate()
     {
-        AIEyeBase eye = GetComponent<AIEyeBase>();
-        if (eye != null && eye.HasTargets())
-        {
-            detectedTarget.Value = eye.GetNearestTarget();
-            return TaskStatus.Success;
-        }
-        return TaskStatus.Failure;
+        return eye != null && eye.ViewEnemy != null
+            ? TaskStatus.Success
+            : TaskStatus.Failure;
     }
 }

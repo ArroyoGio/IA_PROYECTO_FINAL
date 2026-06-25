@@ -1,17 +1,22 @@
-using UnityEngine;
-using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
+using UnityEngine;
 
-public class PresaAlcance : Conditional
+public class ConditionPresaAlcance : Conditional
 {
-    public SharedTransform target;
-    public float range = 5f;
+    private PredatorActionLand predator;
+
+    public override void OnAwake()
+    {
+        predator = GetComponent<PredatorActionLand>();
+    }
 
     public override TaskStatus OnUpdate()
     {
-        if (target.Value == null) return TaskStatus.Failure;
+        if (predator == null || predator.Eye == null || predator.Eye.ViewEnemy == null)
+            return TaskStatus.Failure;
 
-        float distance = Vector3.Distance(transform.position, target.Value.position);
-        return distance < range ? TaskStatus.Success : TaskStatus.Failure;
+        return predator.IsTargetInRange(predator.Eye.ViewEnemy.transform)
+            ? TaskStatus.Success
+            : TaskStatus.Failure;
     }
 }

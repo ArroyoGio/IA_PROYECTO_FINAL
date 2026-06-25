@@ -35,23 +35,25 @@ using System;
             health = maxHealth;
         }
 
-        public virtual void ApplyDamage(float damage, WeaponType type = WeaponType.Normal)
+    public virtual void ApplyDamage(float damage, WeaponType type = WeaponType.Normal)
+    {
+        Debug.Log(gameObject.name + " recibió daño: " + damage);
+
+        if (isImmortal || IsDead) return;
+
+        float finalDamage = Mathf.Max(0, damage - armor);
+        health -= finalDamage;
+        health = Mathf.Clamp(health, 0, maxHealth);
+
+        OnDamageReceived?.Invoke(finalDamage, type);
+
+        if (IsDead)
         {
-            if (isImmortal || IsDead) return;
-
-            float finalDamage = Mathf.Max(0, damage - armor);
-            health -= finalDamage;
-            health = Mathf.Clamp(health, 0, maxHealth);
-
-            OnDamageReceived?.Invoke(finalDamage, type);
-
-            if (IsDead)
-            {
-                Death();
-            }
+            Death();
         }
+    }
 
-        public virtual void Heal(float amount)
+    public virtual void Heal(float amount)
         {
             if (IsDead) return;
             health = Mathf.Clamp(health + amount, 0, maxHealth);

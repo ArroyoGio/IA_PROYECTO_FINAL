@@ -10,7 +10,7 @@ public abstract class PredatorVehicleLand : AICharacterVehicle
     /// <summary>
     /// Persigue a la presa utilizando Pursuit.
     /// </summary>
-    protected void SeguirPrey()
+    public void SeguirPrey()
     {
         if (eye == null || eye.ViewEnemy == null)
             return;
@@ -33,7 +33,7 @@ public abstract class PredatorVehicleLand : AICharacterVehicle
     /// <summary>
     /// Patrullaje aleatorio del tiburón.
     /// </summary>
-    protected void Patrullar()
+    public void Patrullar()
     {
         WanderBehaviour();
     }

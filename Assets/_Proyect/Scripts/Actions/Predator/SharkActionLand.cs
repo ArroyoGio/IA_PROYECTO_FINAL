@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class SharkActionLand : PredatorActionLand
 {
+    [Header("Shark Attack")]
+    public float attackCooldown = 1.5f;
+    private float lastAttackTime = -999f;
+
     private void Awake()
     {
         LoadComponent();
@@ -10,15 +14,23 @@ public class SharkActionLand : PredatorActionLand
     private void Update()
     {
         UpdateAI();
+
+        if (eye != null && eye.ViewEnemy != null)
+        {
+            Morder();
+        }
     }
 
     public void Morder()
     {
+        if (Time.time < lastAttackTime + attackCooldown) return;
         if (eye == null || eye.ViewEnemy == null) return;
 
         Transform prey = eye.ViewEnemy.transform;
 
         Attack(prey);
+
+        lastAttackTime = Time.time;
 
         hunger = Mathf.Max(0, hunger - 30f);
         energy = Mathf.Max(0, energy - 5f);
