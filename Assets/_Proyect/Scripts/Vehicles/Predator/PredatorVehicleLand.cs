@@ -2,32 +2,39 @@ using UnityEngine;
 
 public abstract class PredatorVehicleLand : AICharacterVehicle
 {
-     
     public override void LoadComponent()
     {
         base.LoadComponent();
-
     }
 
-    protected void EvadeEnemy()
-    { 
-       if(eye.ViewEnemy != null)
-       {
-           // Lógica para evadir al enemigo
-           EvadeBehaviour(eye.ViewEnemy.transform,transform.forward*10f);
-       }
-    }
-    protected void SeguirEnemy()
+    /// <summary>
+    /// Persigue a la presa utilizando Pursuit.
+    /// </summary>
+    protected void SeguirPrey()
     {
-        if (eye.ViewEnemy != null)
-        {
-            // Lógica para seguir al enemigo
-            ArriveBehaviour(eye.ViewEnemy.transform.position, 2f);
-        }
+        if (eye == null || eye.ViewEnemy == null)
+            return;
+
+        // Se obtiene el vehículo de la presa para conocer su velocidad
+        AICharacterVehicle preyVehicle =
+            eye.ViewEnemy.GetComponent<AICharacterVehicle>();
+
+        Vector3 preyVelocity =
+            preyVehicle != null ?
+            preyVehicle.GetVelocity() :
+            Vector3.zero;
+
+        // Movimiento de persecución
+        PursuitBehaviour(
+            eye.ViewEnemy.transform,
+            preyVelocity);
     }
+
+    /// <summary>
+    /// Patrullaje aleatorio del tiburón.
+    /// </summary>
     protected void Patrullar()
-            {
-        // Lógica para patrullar el área
+    {
         WanderBehaviour();
     }
 }

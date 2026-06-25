@@ -2,15 +2,21 @@ using UnityEngine;
 
 public class SharkVehicleLand : PredatorVehicleLand
 {
-
-    void Awake()
+    private void Awake()
     {
-       LoadComponent(); 
+        LoadComponent();
     }
-    public override void LoadComponent()
+    private void Update()
     {
-        base.LoadComponent();
+        Debug.Log(eye.ViewEnemy);
 
+        if (eye != null && eye.ViewEnemy != null)
+        {
+            SeguirPrey();
+        }
+        else
+        {
+            Patrullar();
+        }
     }
-   
 }

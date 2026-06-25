@@ -5,21 +5,30 @@ public abstract class PreyVehicleLand : AICharacterVehicle
     public override void LoadComponent()
     {
         base.LoadComponent();
+    }
 
+    protected bool SeeEnemy()
+    {
+        return eye != null && eye.ViewEnemy != null;
     }
 
     protected void EvadeEnemy()
     {
-        if (eye.ViewEnemy != null)
-        {
-            // Lógica para evadir al enemigo
-            EvadeBehaviour(eye.ViewEnemy.transform, transform.forward * 10f);
-        }
-    }
-    protected void Patrullar()
-    {
-        // Lógica para patrullar el área
-        WanderBehaviour();
+        if (!SeeEnemy()) return;
+
+        Vector3 enemyVelocity = Vector3.zero;
+
+        AICharacterVehicle enemyVehicle =
+            eye.ViewEnemy.GetComponent<AICharacterVehicle>();
+
+        if (enemyVehicle != null)
+            enemyVelocity = enemyVehicle.GetVelocity();
+
+        EvadeBehaviour(eye.ViewEnemy.transform, enemyVelocity);
     }
 
+    protected void Patrullar()
+    {
+        WanderBehaviour();
+    }
 }

@@ -2,12 +2,16 @@ using UnityEngine;
 
 public class FishVehicleLand : PreyVehicleLand
 {
-    void Awake()
+    private void Awake()
     {
         LoadComponent();
     }
-    public override void LoadComponent()
+
+    private void Update()
     {
-        base.LoadComponent();
+        if (SeeEnemy())
+            EvadeEnemy();
+        else
+            Patrullar();
     }
 }
