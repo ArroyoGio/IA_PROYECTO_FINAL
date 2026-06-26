@@ -581,8 +581,8 @@ MonoBehaviour:
   startWhenEnabled: 1
   asynchronousLoad: 0
   pauseWhenDisabled: 0
-  restartWhenComplete: 0
-  logTaskChanges: 0
+  restartWhenComplete: 1
+  logTaskChanges: 1
   group: 0
   resetValuesOnRestart: 0
   externalBehavior: {fileID: 11400000, guid: 2c6e99b4b376b4248b42c9817661c13a, type: 2}
@@ -1807,8 +1807,8 @@ MonoBehaviour:
   startWhenEnabled: 1
   asynchronousLoad: 0
   pauseWhenDisabled: 0
-  restartWhenComplete: 0
-  logTaskChanges: 0
+  restartWhenComplete: 1
+  logTaskChanges: 1
   group: 0
   resetValuesOnRestart: 0
   externalBehavior: {fileID: 11400000, guid: 41a1d66af7080ba4c9c3e593ebf84ccf, type: 2}

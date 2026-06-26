@@ -16,13 +16,13 @@ public class BTWander : Action
         if (predator != null)
         {
             predator.Patrullar();
-            return TaskStatus.Running;
+            return TaskStatus.Success;
         }
 
         if (prey != null)
         {
             prey.Patrullar();
-            return TaskStatus.Running;
+            return TaskStatus.Success;
         }
 
         return TaskStatus.Failure;

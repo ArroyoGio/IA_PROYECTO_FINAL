@@ -14,11 +14,6 @@ public class SharkActionLand : PredatorActionLand
     private void Update()
     {
         UpdateAI();
-
-        if (eye != null && eye.ViewEnemy != null)
-        {
-            Morder();
-        }
     }
 
     public void Morder()
@@ -27,6 +22,7 @@ public class SharkActionLand : PredatorActionLand
         if (eye == null || eye.ViewEnemy == null) return;
 
         Transform prey = eye.ViewEnemy.transform;
+        if (!IsTargetInRange(prey)) return;
 
         Attack(prey);
 

@@ -15,7 +15,7 @@ public class BTEvade : Action
         if (preyVehicle == null)
             return TaskStatus.Failure;
 
-        preyVehicle.SendMessage("EvadeEnemy", SendMessageOptions.DontRequireReceiver);
-        return TaskStatus.Running;
+        preyVehicle.EvadeEnemy();
+        return TaskStatus.Success;
     }
 }

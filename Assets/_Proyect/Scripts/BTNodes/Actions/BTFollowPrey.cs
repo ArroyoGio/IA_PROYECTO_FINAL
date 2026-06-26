@@ -21,6 +21,6 @@ public class BTFollowPrey : Action
         }
 
         predatorVehicle.SeguirPrey();
-        return TaskStatus.Running;
+        return TaskStatus.Success;
     }
 }
