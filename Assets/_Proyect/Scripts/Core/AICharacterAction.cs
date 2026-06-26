@@ -32,14 +32,14 @@ public abstract class AICharacterAction : AICharacterControl
             blackboard.SetBool("HambreAlta", hunger > UpHambreAlta);
             blackboard.SetBool("HambreMedia", hunger > UpHambreMedia && hunger <= UpHambreAlta);
             blackboard.SetBool("EnergiaBaja", energy < UpEnergiaBaja);
-            blackboard.SetBool("VePresa", eye.ViewEnemy != null);
+            blackboard.SetBool("VePresa", eye != null && eye.ViewEnemy != null);
         }
     }
     protected void BlackboardVePresa()
     {
         if (blackboard != null)
         {
-            blackboard.SetBool("VePresa", eye.ViewEnemy!=null);
+            blackboard.SetBool("VePresa", eye != null && eye.ViewEnemy != null);
         }
     }
     public virtual void UpdateAI()

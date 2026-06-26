@@ -20,9 +20,17 @@ MonoBehaviour:
       parentIndex: 
       startIndex: 
       variableStartIndex: 
-      JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(456.6667,107.333344)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(-3.333313,117.333344)"},"ID":1,"Name":"Selector","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-100.666626,109.333344)"},"ID":2,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"ConditionVeDepredador","NodeData":{"Offset":"(-74.666626,110.666687)"},"ID":3,"Name":"Condition
-        Ve Depredador","Instant":true},{"Type":"BTEvade","NodeData":{"Offset":"(69.333374,108)"},"ID":4,"Name":"BT
-        Evade","Instant":true}]},{"Type":"BTWander","NodeData":{"Offset":"(204,145.333344)"},"ID":5,"Name":"BT
+      JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(456.6667,107.333344)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(-3.333313,117.333344)"},"ID":1,"Name":"Selector","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-578.3321,106.121109)"},"ID":2,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"ConditionPuedeLiberarTinta","NodeData":{"Offset":"(-205.301834,118.848419)"},"ID":3,"Name":"Condition
+        Puede Liberar Tinta","Instant":true},{"Type":"BTLiberarTinta","NodeData":{"Offset":"(-31.7881279,115.940926)"},"ID":4,"Name":"BT
+        Liberar Tinta","Instant":true},{"Type":"BTEvade","NodeData":{"Offset":"(95.36168,124.908966)"},"ID":5,"Name":"BT
+        Evade","Instant":true}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-225.666672,109.333344)"},"ID":6,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"ConditionVeDepredador","NodeData":{"Offset":"(-74.666626,110.666687)"},"ID":7,"Name":"Condition
+        Ve Depredador","Instant":true},{"Type":"BTEvade","NodeData":{"Offset":"(69.333374,108)"},"ID":8,"Name":"BT
+        Evade","Instant":true}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(77.31135,121.591431)"},"ID":9,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"EnergiaBaja","NodeData":{"Offset":"(-79.56372,96.38312)"},"ID":10,"Name":"Energia
+        Baja","Instant":true,"Singlethreshold":30},{"Type":"BTDescansar","NodeData":{"Offset":"(40.8530045,95.3414154)"},"ID":11,"Name":"BT
+        Descansar","Instant":true}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(366.9944,121.646149)"},"ID":12,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"ConditionHambreAlta","NodeData":{"Offset":"(-63.0056152,120.396118)"},"ID":13,"Name":"Condition
+        Hambre Alta","Instant":true},{"Type":"ConditionHayComida","NodeData":{"Offset":"(113.244324,116.646118)"},"ID":14,"Name":"Condition
+        Hay Comida","Instant":true},{"Type":"BTSeekFood","NodeData":{"Offset":"(258.244263,119.146118)"},"ID":15,"Name":"BT
+        Seek Food","Instant":true,"SinglearriveDistance":1.5,"SingleslowingDistance":5}]},{"Type":"BTWander","NodeData":{"Offset":"(858.166565,157.833344)"},"ID":16,"Name":"BT
         Wander","Instant":true}]}}'
       fieldSerializationData:
         typeName: []

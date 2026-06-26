@@ -22,7 +22,7 @@ public abstract class PreyActionLand : AICharacterAction
     }
     protected void UpdateFear()
             {
-        if (eye.ViewEnemy)
+        if (eye != null && eye.ViewEnemy != null)
         {
             fear += 8f * Time.deltaTime;
         }
@@ -35,7 +35,7 @@ public abstract class PreyActionLand : AICharacterAction
         {
             blackboard.SetFloat("Fear", fear);
             blackboard.SetBool("MiedoAlto", fear > DownMiedoAlto);
-            blackboard.SetBool("VeDepredador", eye.ViewEnemy!=null);
+            blackboard.SetBool("VeDepredador", eye != null && eye.ViewEnemy != null);
         }
     }
 }
