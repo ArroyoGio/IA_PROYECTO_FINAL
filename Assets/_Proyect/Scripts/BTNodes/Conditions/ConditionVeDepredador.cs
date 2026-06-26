@@ -1,5 +1,4 @@
 using BehaviorDesigner.Runtime.Tasks;
-using UnityEngine;
 
 public class ConditionVeDepredador : Conditional
 {
@@ -12,9 +11,8 @@ public class ConditionVeDepredador : Conditional
 
     public override TaskStatus OnUpdate()
     {
-        bool ve = eye != null && eye.ViewEnemy != null;
-        Debug.Log(gameObject.name + " ConditionVeDepredador = " + ve);
-
-        return ve ? TaskStatus.Success : TaskStatus.Failure;
+        return eye != null && eye.ViewEnemy != null
+            ? TaskStatus.Success
+            : TaskStatus.Failure;
     }
 }
