@@ -161,7 +161,7 @@ MonoBehaviour:
   UpHambreAlta: 70
   UpHambreMedia: 30
   UpEnergiaBaja: 30
-  fear: 0
+  fear: 80
   maxFear: 100
   DownMiedoAlto: 100
   ink: 100
@@ -169,6 +169,7 @@ MonoBehaviour:
   inkRange: 50
   inkCooldown: 1
   inkCloudDuration: 6
+  inkRecoverRate: 15
   inkParticlePrefab: {fileID: 3738666978831964422, guid: 5115b972489f7d747a8a8e514878a7e1, type: 3}
 --- !u!114 &1409517031332178097
 MonoBehaviour:

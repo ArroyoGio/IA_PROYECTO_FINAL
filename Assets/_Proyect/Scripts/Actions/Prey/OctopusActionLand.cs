@@ -14,6 +14,7 @@ public class OctopusActionLand : PreyActionLand
     private const float MaxCamouflage = 100f;
     private const float CamouflageDrain = 10f;
     private const float CamouflageRecover = 8f;
+    private const float CamouflageAlpha = 0.35f;
 
     private float camouflageValue = MaxCamouflage;
     private float lastInkTime = -999f;
@@ -28,6 +29,17 @@ public class OctopusActionLand : PreyActionLand
     private float normalEyeDistance;
     private bool hasNormalEyeDistance;
     private bool isCamouflaging;
+    private Renderer[] octopusRenderers;
+    private Material[][] octopusMaterials;
+    private Color[][] originalMaterialColors;
+    private int[][] originalRenderQueues;
+    private float[][] originalSurfaceValues;
+    private float[][] originalBlendValues;
+    private float[][] originalSrcBlendValues;
+    private float[][] originalDstBlendValues;
+    private float[][] originalZWriteValues;
+    private bool[][] originalTransparentKeywords;
+    private bool isVisualCamouflaged;
 
     private void Awake()
     {
@@ -44,6 +56,8 @@ public class OctopusActionLand : PreyActionLand
             normalEyeDistance = eye.distance;
             hasNormalEyeDistance = true;
         }
+
+        CacheOriginalMaterials();
     }
 
     private void Update()
@@ -57,7 +71,10 @@ public class OctopusActionLand : PreyActionLand
             RecuperarCamuflaje();
 
         if (!isCamouflaging || camouflageValue <= 0f)
+        {
             RestoreVisibility();
+            RestoreCamouflageVisual();
+        }
 
         isCamouflaging = false;
     }
@@ -88,11 +105,13 @@ public class OctopusActionLand : PreyActionLand
         if (camouflageValue <= 0f)
         {
             RestoreVisibility();
+            RestoreCamouflageVisual();
             return;
         }
 
         isCamouflaging = true;
         camouflageValue = Mathf.Clamp(camouflageValue - CamouflageDrain * Time.deltaTime, 0f, MaxCamouflage);
+        ApplyCamouflageVisual();
 
         if (eye != null)
         {
@@ -109,6 +128,152 @@ public class OctopusActionLand : PreyActionLand
     public void RecuperarCamuflaje()
     {
         camouflageValue = Mathf.Clamp(camouflageValue + CamouflageRecover * Time.deltaTime, 0f, MaxCamouflage);
+    }
+
+    private void CacheOriginalMaterials()
+    {
+        if (octopusRenderers != null)
+            return;
+
+        octopusRenderers = GetComponentsInChildren<Renderer>();
+        octopusMaterials = new Material[octopusRenderers.Length][];
+        originalMaterialColors = new Color[octopusRenderers.Length][];
+        originalRenderQueues = new int[octopusRenderers.Length][];
+        originalSurfaceValues = new float[octopusRenderers.Length][];
+        originalBlendValues = new float[octopusRenderers.Length][];
+        originalSrcBlendValues = new float[octopusRenderers.Length][];
+        originalDstBlendValues = new float[octopusRenderers.Length][];
+        originalZWriteValues = new float[octopusRenderers.Length][];
+        originalTransparentKeywords = new bool[octopusRenderers.Length][];
+
+        for (int i = 0; i < octopusRenderers.Length; i++)
+        {
+            octopusMaterials[i] = octopusRenderers[i].materials;
+            originalMaterialColors[i] = new Color[octopusMaterials[i].Length];
+            originalRenderQueues[i] = new int[octopusMaterials[i].Length];
+            originalSurfaceValues[i] = new float[octopusMaterials[i].Length];
+            originalBlendValues[i] = new float[octopusMaterials[i].Length];
+            originalSrcBlendValues[i] = new float[octopusMaterials[i].Length];
+            originalDstBlendValues[i] = new float[octopusMaterials[i].Length];
+            originalZWriteValues[i] = new float[octopusMaterials[i].Length];
+            originalTransparentKeywords[i] = new bool[octopusMaterials[i].Length];
+
+            for (int j = 0; j < octopusMaterials[i].Length; j++)
+            {
+                Material material = octopusMaterials[i][j];
+                originalMaterialColors[i][j] = GetMaterialColor(material);
+                originalRenderQueues[i][j] = material.renderQueue;
+                originalSurfaceValues[i][j] = GetMaterialFloat(material, "_Surface");
+                originalBlendValues[i][j] = GetMaterialFloat(material, "_Blend");
+                originalSrcBlendValues[i][j] = GetMaterialFloat(material, "_SrcBlend");
+                originalDstBlendValues[i][j] = GetMaterialFloat(material, "_DstBlend");
+                originalZWriteValues[i][j] = GetMaterialFloat(material, "_ZWrite");
+                originalTransparentKeywords[i][j] = material.IsKeywordEnabled("_SURFACE_TYPE_TRANSPARENT");
+            }
+        }
+    }
+
+    private void ApplyCamouflageVisual()
+    {
+        CacheOriginalMaterials();
+
+        if (isVisualCamouflaged)
+            return;
+
+        for (int i = 0; i < octopusMaterials.Length; i++)
+        {
+            for (int j = 0; j < octopusMaterials[i].Length; j++)
+            {
+                Material material = octopusMaterials[i][j];
+                SetMaterialTransparent(material);
+
+                Color color = GetMaterialColor(material);
+                color.a = CamouflageAlpha;
+                SetMaterialColor(material, color);
+            }
+        }
+
+        isVisualCamouflaged = true;
+    }
+
+    private void RestoreCamouflageVisual()
+    {
+        if (!isVisualCamouflaged || octopusMaterials == null)
+            return;
+
+        for (int i = 0; i < octopusMaterials.Length; i++)
+        {
+            for (int j = 0; j < octopusMaterials[i].Length; j++)
+            {
+                Material material = octopusMaterials[i][j];
+                SetMaterialColor(material, originalMaterialColors[i][j]);
+                material.renderQueue = originalRenderQueues[i][j];
+                SetMaterialFloat(material, "_Surface", originalSurfaceValues[i][j]);
+                SetMaterialFloat(material, "_Blend", originalBlendValues[i][j]);
+                SetMaterialFloat(material, "_SrcBlend", originalSrcBlendValues[i][j]);
+                SetMaterialFloat(material, "_DstBlend", originalDstBlendValues[i][j]);
+                SetMaterialFloat(material, "_ZWrite", originalZWriteValues[i][j]);
+
+                if (originalTransparentKeywords[i][j])
+                    material.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");
+                else
+                    material.DisableKeyword("_SURFACE_TYPE_TRANSPARENT");
+            }
+        }
+
+        isVisualCamouflaged = false;
+    }
+
+    private Color GetMaterialColor(Material material)
+    {
+        if (material.HasProperty("_BaseColor"))
+            return material.GetColor("_BaseColor");
+
+        if (material.HasProperty("_Color"))
+            return material.GetColor("_Color");
+
+        return Color.white;
+    }
+
+    private float GetMaterialFloat(Material material, string property)
+    {
+        return material.HasProperty(property) ? material.GetFloat(property) : 0f;
+    }
+
+    private void SetMaterialColor(Material material, Color color)
+    {
+        if (material.HasProperty("_BaseColor"))
+            material.SetColor("_BaseColor", color);
+
+        if (material.HasProperty("_Color"))
+            material.SetColor("_Color", color);
+    }
+
+    private void SetMaterialFloat(Material material, string property, float value)
+    {
+        if (material.HasProperty(property))
+            material.SetFloat(property, value);
+    }
+
+    private void SetMaterialTransparent(Material material)
+    {
+        if (material.HasProperty("_Surface"))
+            material.SetFloat("_Surface", 1f);
+
+        if (material.HasProperty("_Blend"))
+            material.SetFloat("_Blend", 0f);
+
+        if (material.HasProperty("_SrcBlend"))
+            material.SetFloat("_SrcBlend", (float)UnityEngine.Rendering.BlendMode.SrcAlpha);
+
+        if (material.HasProperty("_DstBlend"))
+            material.SetFloat("_DstBlend", (float)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+
+        if (material.HasProperty("_ZWrite"))
+            material.SetFloat("_ZWrite", 0f);
+
+        material.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");
+        material.renderQueue = (int)UnityEngine.Rendering.RenderQueue.Transparent;
     }
 
     private void RecoverInk()
