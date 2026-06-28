@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b23f08d2ae4cba14087c1ed36193d82b, type: 3}
+  m_Name: Dolphin BT
+  m_EditorClassIdentifier: Assembly-CSharp-firstpass::BehaviorDesigner.Runtime.ExternalBehaviorTree
+  mBehaviorSource:
+    behaviorName: Behavior
+    behaviorDescription: 
+    mTaskData:
+      types: []
+      parentIndex: 
+      startIndex: 
+      variableStartIndex: 
+      JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(517.642334,107.333344)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(-3.333311,105.138214)"},"ID":1,"Name":"Selector","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-344.2394,106.696564)"},"ID":2,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"ConditionVeDepredador","NodeData":{"Offset":"(-74.666626,110.666687)"},"ID":3,"Name":"Condition
+        Ve Depredador","Instant":true},{"Type":"BTEvade","NodeData":{"Offset":"(69.333374,108)"},"ID":4,"Name":"BT
+        Evade","Instant":true}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-26.9454956,144.471008)"},"ID":5,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"ConditionCuriosidadAlta","NodeData":{"Offset":"(-88.2096558,133.991119)"},"ID":6,"Name":"Condition
+        Curiosidad Alta","Instant":true},{"Type":"BTAcercarseCurioso","NodeData":{"Offset":"(70.61395,135.461792)"},"ID":7,"Name":"BT
+        Acercarse Curioso","Instant":true}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(288.348541,125.463066)"},"ID":8,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"ConditionEnergiaBaja","NodeData":{"Offset":"(-77.942955,107.153114)"},"ID":9,"Name":"Condition
+        Energia Baja","Instant":true},{"Type":"BTDescansar","NodeData":{"Offset":"(64.42279,109.938911)"},"ID":10,"Name":"BT
+        Descansar","Instant":true}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(629.7725,119.233315)"},"ID":11,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"ConditionHambreAlta","NodeData":{"Offset":"(-74.72952,124.81768)"},"ID":12,"Name":"Condition
+        Hambre Alta","Instant":true},{"Type":"ConditionHayComida","NodeData":{"Offset":"(85.87637,123.3025)"},"ID":13,"Name":"Condition
+        Hay Comida","Instant":true},{"Type":"BTSeekFood","NodeData":{"Offset":"(228.300812,133.692078)"},"ID":14,"Name":"BT
+        Seek Food","Instant":true,"SinglearriveDistance":1.5,"SingleslowingDistance":5}]},{"Type":"BTWander","NodeData":{"Offset":"(1035.9585,180.236023)"},"ID":15,"Name":"BT
+        Wander","Instant":true}]}}'
+      fieldSerializationData:
+        typeName: []
+        fieldNameHash: 
+        startIndex: 
+        dataPosition: 
+        unityObjects: []
+        byteData: 
+        byteDataArray: 
+      Version: 1.7.13

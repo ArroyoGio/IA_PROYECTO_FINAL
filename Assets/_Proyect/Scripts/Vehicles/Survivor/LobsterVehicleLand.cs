@@ -1,38 +1,70 @@
-//using UnityEngine;
+using UnityEngine;
 
-//public class LobsterVehicleLand : SurvivorVehicleLand
-//{
-//    [Header("Lobster Vehicle")]
-//    public float burrowSpeed = 2f;
+public class LobsterVehicleLand : SurvivorVehicleLand
+{
+    [Header("Lobster Vehicle")]
+    public float patrolSpeedMultiplier = 0.45f;
+    public float ambushPursuitScale = 0.35f;
+    public float preyArriveDistance = 1.8f;
+    public float preySlowingDistance = 4f;
 
-//    public override void UpdateAI()
-//    {
-//        // El movimiento se maneja a través de SteeringManager
-//    }
+    private void Awake()
+    {
+        LoadComponent();
+    }
 
-//    public void Burrow(Vector3 burrowPosition)
-//    {
-//        float originalSpeed = maxSpeed;
-//        maxSpeed = burrowSpeed;
-//        Move(burrowPosition);
-//        maxSpeed = originalSpeed;
-//    }
+    public override void Patrullar()
+    {
+        CacheNormalSpeed();
+        maxSpeed = normalMaxSpeed * patrolSpeedMultiplier;
+        WanderBehaviour();
+    }
 
-//    public void AmbushMove(Transform prey)
-//    {
-//        if (prey != null)
-//        {
-//            // Moverse lentamente hacia la presa
-//            float originalSpeed = maxSpeed;
-//            maxSpeed = 1f;
-//            Move(prey.position);
-//            maxSpeed = originalSpeed;
-//        }
-//    }
+    public override void CambiarPosicion()
+    {
+        Patrullar();
+    }
 
-//    public void ScuttleAway(Vector3 escapeDirection)
-//    {
-//        Vector3 escapeTarget = transform.position + escapeDirection * 10f;
-//        Move(escapeTarget);
-//    }
-//}
+    public void AcercarseAPresaCercana()
+    {
+        Transform prey = GetNearbyPrey();
+        if (prey == null)
+            return;
+
+        CacheNormalSpeed();
+        maxSpeed = normalMaxSpeed * 0.65f;
+
+        if (Vector3.Distance(transform.position, prey.position) <= preyArriveDistance)
+        {
+            Stop();
+            return;
+        }
+
+        AICharacterVehicle preyVehicle = prey.GetComponent<AICharacterVehicle>();
+        if (preyVehicle != null)
+        {
+            Vector3 steering = Pursuit(prey, preyVehicle.GetVelocity()) * ambushPursuitScale;
+            ApplySteering(steering);
+            return;
+        }
+
+        ArriveBehaviour(prey.position, preySlowingDistance);
+    }
+
+    private Transform GetNearbyPrey()
+    {
+        if (blackboard != null)
+        {
+            object preyObject = blackboard.GetObject("PreyTarget");
+
+            if (preyObject is Transform preyTransform)
+                return preyTransform;
+
+            if (preyObject is GameObject preyGameObject)
+                return preyGameObject.transform;
+        }
+
+        return eye != null && eye.ViewEnemy != null ? eye.ViewEnemy.transform : null;
+    }
+
+}

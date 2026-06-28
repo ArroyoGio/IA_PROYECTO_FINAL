@@ -1,119 +1,201 @@
 using UnityEngine;
 
-//public class LobsterActionLand : SurvivorActionLand
-//{
-//    [Header("Lobster Settings")]
-//    public float hunger = 50f;
-//    public float maxHunger = 100f;
-//    public float patience = 100f;
-//    public float maxPatience = 100f;
-//    public float burrowTime = 0f;
-//    private bool isBurrowed = false;
+public class LobsterActionLand : SurvivorActionLand
+{
+    [Header("Lobster Mind")]
+    public float patience = 70f;
+    public float buryDepth = 0.4f;
+    public float ambushRange = 4f;
+    public float ambushDamage = 15f;
 
-//    private Wander wander;
-//    private Hide hide;
-//    private Arrive arrive;
+    private const float AttackCooldown = 1.5f;
+    private const float PatienceRecoverRate = 8f;
+    private const float PatienceCost = 20f;
+    private const float HideSpeedMultiplier = 0.02f;
 
-//    protected override void Awake()
-//    {
-//        base.Awake();
-//        wander = GetComponent<Wander>();
-//        hide = GetComponent<Hide>();
-//        arrive = GetComponent<Arrive>();
-//    }
+    private LobsterVehicleLand lobsterVehicle;
+    private float lastAttackTime = -999f;
+    private bool isBuried;
+    private Vector3 originalPosition;
+    private bool hasOriginalPosition;
 
-//    //TODA la lógica va AQUÍ
-//    public override void UpdateAI()
-//    {
-//        hunger += 0.8f * Time.deltaTime;
-//        hunger = Mathf.Clamp(hunger, 0, maxHunger);
+    private void Awake()
+    {
+        LoadComponent();
+    }
 
-//        if (!isBurrowed)
-//        {
-//            patience += 2f * Time.deltaTime;
-//            patience = Mathf.Clamp(patience, 0, maxPatience);
-//        }
+    public override void LoadComponent()
+    {
+        base.LoadComponent();
+        lobsterVehicle = survivorVehicle as LobsterVehicleLand;
+    }
 
-//        if (blackboard != null)
-//        {
-//            blackboard.SetFloat("Hunger", hunger);
-//            blackboard.SetFloat("Patience", patience);
-//            blackboard.SetFloat("Camouflage", camouflage);
-//            blackboard.SetBool("HambreAlta", hunger > 70f);
-//            blackboard.SetBool("PacienciaAlta", patience > 50f);
-//            blackboard.SetBool("PacienciaBaja", patience < 30f);
-//            blackboard.SetBool("VeDepredador", eye.HasTargets());
-//            blackboard.SetBool("VePresa", IsPreyNear());
-//        }
-//    }
+    private void Update()
+    {
+        UpdateAI();
+    }
 
-//    bool IsPreyNear()
-//    {
-//        Collider[] prey = Physics.OverlapSphere(transform.position, 5f, LayerMask.GetMask("Fish"));
-//        return prey.Length > 0;
-//    }
+    public void Enterrarse()
+    {
+        hiding = 100f;
+        LowerForBurrow();
 
-//    public void Enterrarse()
-//    {
-//        isBurrowed = true;
-//        transform.position = new Vector3(transform.position.x, -0.5f, transform.position.z);
-//        if (hide != null)
-//        {
-//            hide.isActive = true;
-//            steering.AddBehavior(hide);
-//        }
-//    }
+        if (lobsterVehicle != null)
+            lobsterVehicle.Stop();
 
-//    public void Salir()
-//    {
-//        isBurrowed = false;
-//        transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
-//        if (hide != null)
-//            hide.isActive = false;
-//    }
+        if (survivorVehicle != null)
+            survivorVehicle.SetSpeedMultiplier(HideSpeedMultiplier);
 
-//    public void Emboscar()
-//    {
-//        if (!isBurrowed) Enterrarse();
-//        patience -= Time.deltaTime * 5f;
+        patience = Mathf.Clamp(patience + PatienceRecoverRate * Time.deltaTime, 0f, 100f);
+    }
 
-//        Collider[] prey = Physics.OverlapSphere(transform.position, 3f, LayerMask.GetMask("Fish"));
-//        if (prey.Length > 0)
-//        {
-//            Transform target = prey[0].transform;
-//            if (arrive != null)
-//            {
-//                arrive.SetTarget(target);
-//                arrive.isActive = true;
-//                steering.AddBehavior(arrive);
-//            }
-//        }
-//    }
+    public void Emboscar()
+    {
+        hiding = 0f;
+        RestoreFromBurrow();
+        RestoreLobsterNormalSpeed();
 
-//    public void Attack()
-//    {
-//        Collider[] prey = Physics.OverlapSphere(transform.position, 2f, LayerMask.GetMask("Fish"));
-//        foreach (var p in prey)
-//        {
-//            HealthBase health = p.GetComponent<HealthBase>();
-//            if (health != null)
-//            {
-//                health.ApplyDamage(20f, WeaponType.Normal);
-//                hunger = Mathf.Max(0, hunger - 20f);
-//                patience = Mathf.Min(maxPatience, patience + 10f);
-//            }
-//        }
-//    }
+        if (!IsPreyClose())
+            return;
 
-//    public void CambiarPosicion()
-//    {
-//        if (isBurrowed) Salir();
-//        Vector3 newPosition = transform.position + Random.insideUnitSphere * 10f;
-//        newPosition.y = 0;
-//        steering.SetTarget(newPosition);
-//        patience += 20f;
-//        patience = Mathf.Clamp(patience, 0, maxPatience);
-//    }
+        if (currentPrey == null)
+            return;
 
-//    public override void PerformAction() { }
-//}
+        if (Time.time < lastAttackTime + AttackCooldown)
+        {
+            Debug.Log("EMBOSCAR cancelado por cooldown");
+            return;
+        }
+
+        Vector3 toPrey = currentPrey.position - transform.position;
+        float distanceToPrey = toPrey.magnitude;
+        if (distanceToPrey > 0.01f)
+        {
+            float lungeDistance = Mathf.Min(distanceToPrey, ambushRange * 0.75f);
+            transform.position += toPrey.normalized * lungeDistance;
+        }
+
+        if (lobsterVehicle != null)
+            lobsterVehicle.Stop();
+
+        if (Vector3.Distance(transform.position, currentPrey.position) > ambushRange)
+        {
+            Debug.Log("EMBOSCAR cancelado por distancia");
+            return;
+        }
+
+        HealthBase preyHealth = currentPrey.GetComponentInParent<HealthBase>();
+        if (preyHealth == null)
+        {
+            Debug.Log("EMBOSCAR cancelado por HealthBase null");
+            return;
+        }
+
+        if (preyHealth.IsDead)
+            return;
+
+        preyHealth.ApplyDamage(ambushDamage, WeaponType.Normal);
+        Debug.Log("LOBSTER EMBOSCO");
+        lastAttackTime = Time.time;
+        hunger = Mathf.Clamp(hunger - 20f, 0f, maxHunger);
+        patience = Mathf.Clamp(patience - PatienceCost, 0f, 100f);
+    }
+
+    public void CambiarPosicion()
+    {
+        hiding = 0f;
+        RestoreFromBurrow();
+        RestoreLobsterNormalSpeed();
+
+        if (lobsterVehicle != null)
+            lobsterVehicle.CambiarPosicion();
+
+        patience = Mathf.Clamp(patience + 10f * Time.deltaTime, 0f, 100f);
+    }
+
+    public void Defenderse()
+    {
+        if (!HasPredatorThreat())
+            return;
+
+        threat = ThreatHighValue;
+        hiding = 100f;
+    }
+
+    public override bool IsPreyClose()
+    {
+        if (eye == null || eye.ViewEnemy == null)
+        {
+            currentPrey = null;
+            return false;
+        }
+
+        Transform target = eye.ViewEnemy.transform;
+        if (!IsInLayerHierarchy(target, "Prey"))
+        {
+            currentPrey = null;
+            return false;
+        }
+
+        currentPrey = target;
+        return Vector3.Distance(transform.position, currentPrey.position) <= ambushRange;
+    }
+
+    protected override void UpdateSurvivorState()
+    {
+        base.UpdateSurvivorState();
+
+        if (threat <= 60f)
+        {
+            RestoreFromBurrow();
+            RestoreLobsterNormalSpeed();
+        }
+
+        if (!isBuried)
+        {
+            patience = Mathf.Clamp(patience + PatienceRecoverRate * Time.deltaTime, 0f, 100f);
+        }
+    }
+
+    protected override void UpdateSurvivorBlackboard()
+    {
+        base.UpdateSurvivorBlackboard();
+
+        if (blackboard != null)
+            blackboard.SetFloat("Patience", patience);
+    }
+
+    private bool LowerForBurrow()
+    {
+        if (isBuried)
+            return false;
+
+        originalPosition = transform.position;
+        hasOriginalPosition = true;
+
+        transform.position = originalPosition + Vector3.down * buryDepth;
+        isBuried = true;
+        return true;
+    }
+
+    private void RestoreFromBurrow()
+    {
+        if (!isBuried)
+            return;
+
+        if (hasOriginalPosition)
+            transform.position = originalPosition;
+        else
+            transform.position += Vector3.up * buryDepth;
+
+        isBuried = false;
+        hiding = 0f;
+    }
+
+    private void RestoreLobsterNormalSpeed()
+    {
+        if (survivorVehicle != null)
+            survivorVehicle.RestoreNormalSpeed();
+    }
+
+}

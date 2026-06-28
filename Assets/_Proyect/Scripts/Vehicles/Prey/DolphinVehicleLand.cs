@@ -1,39 +1,53 @@
-//using UnityEngine;
+using UnityEngine;
 
-//public class DolphinVehicleLand : PreyVehicleLand
-//{
-//    [Header("Dolphin Vehicle")]
-//    public float jumpHeight = 3f;
-//    public float jumpCooldown = 2f;
-//    private float lastJumpTime = 0f;
+public class DolphinVehicleLand : PreyVehicleLand
+{
+    [Header("Dolphin Vehicle")]
+    public float curiousArriveDistance = 3f;
+    public float curiousSlowingDistance = 8f;
+    public float curiousPursuitScale = 0.35f;
 
-//    public override void UpdateAI()
-//    {
-//        // El movimiento se maneja a través de SteeringManager
-//    }
+    private void Awake()
+    {
+        LoadComponent();
+    }
 
-//    public void PerformJump()
-//    {
-//        if (Time.time - lastJumpTime > jumpCooldown && rb != null)
-//        {
-//            Vector3 jumpForce = Vector3.up * jumpHeight + transform.forward * 2f;
-//            rb.AddForce(jumpForce, ForceMode.Impulse);
-//            lastJumpTime = Time.time;
-//        }
-//    }
+    public void AcercarseCurioso()
+    {
+        Transform target = GetCuriosityTarget();
+        if (target == null)
+            return;
 
-//    public void MoveToSurface(Vector3 surfacePoint)
-//    {
-//        Move(surfacePoint);
-//    }
+        if (Vector3.Distance(transform.position, target.position) <= curiousArriveDistance)
+        {
+            Stop();
+            return;
+        }
 
-//    public void SwimAroundSphere(Transform sphere)
-//    {
-//        if (sphere != null)
-//        {
-//            Vector3 orbitPosition = sphere.position + Random.insideUnitSphere * 5f;
-//            orbitPosition.y = 0;
-//            Move(orbitPosition);
-//        }
-//    }
-//}
+        AICharacterVehicle targetVehicle = target.GetComponent<AICharacterVehicle>();
+        if (targetVehicle != null)
+        {
+            Vector3 steering = Pursuit(target, targetVehicle.GetVelocity()) * curiousPursuitScale;
+            ApplySteering(steering);
+            return;
+        }
+
+        ArriveBehaviour(target.position, curiousSlowingDistance);
+    }
+
+    private Transform GetCuriosityTarget()
+    {
+        if (blackboard != null)
+        {
+            object targetObject = blackboard.GetObject("CuriosityTarget");
+
+            if (targetObject is Transform targetTransform)
+                return targetTransform;
+
+            if (targetObject is GameObject targetGameObject)
+                return targetGameObject.transform;
+        }
+
+        return eye != null && eye.ViewEnemy != null ? eye.ViewEnemy.transform : null;
+    }
+}

@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b23f08d2ae4cba14087c1ed36193d82b, type: 3}
+  m_Name: Lobster BT
+  m_EditorClassIdentifier: Assembly-CSharp-firstpass::BehaviorDesigner.Runtime.ExternalBehaviorTree
+  mBehaviorSource:
+    behaviorName: Behavior
+    behaviorDescription: 
+    mTaskData:
+      types: []
+      parentIndex: 
+      startIndex: 
+      variableStartIndex: 
+      JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(395.5835,221.15686)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(-4.416504,121.15686)"},"ID":1,"Name":"Selector","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-149.551758,107.474304)"},"ID":2,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"ConditionAmenazaAlta","NodeData":{"Offset":"(-83.99625,99.6966553)"},"ID":3,"Name":"Condition
+        Amenaza Alta","Instant":true,"Singlethreshold":60},{"Type":"BTEnterrarse","NodeData":{"Offset":"(63.3335838,105.55545)"},"ID":4,"Name":"BT
+        Enterrarse","Instant":true}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(140.191727,98.86923)"},"ID":5,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"ConditionPresaAlcance","NodeData":{"Offset":"(-76.5405,114.686218)"},"ID":6,"Name":"Condition
+        Presa Alcance","Instant":true},{"Type":"BTEmboscar","NodeData":{"Offset":"(66.76019,114.686279)"},"ID":7,"Name":"BT
+        Emboscar","Instant":true}]},{"Type":"BTWander","NodeData":{"Offset":"(351.13913,135.143845)"},"ID":8,"Name":"BT
+        Wander","Instant":true}]}}'
+      fieldSerializationData:
+        typeName: []
+        fieldNameHash: 
+        startIndex: 
+        dataPosition: 
+        unityObjects: []
+        byteData: 
+        byteDataArray: 
+      Version: 1.7.13

@@ -4,11 +4,13 @@ public class BTWander : Action
 {
     private PredatorVehicleLand predator;
     private PreyVehicleLand prey;
+    private SurvivorVehicleLand survivor;
 
     public override void OnAwake()
     {
         predator = GetComponent<PredatorVehicleLand>();
         prey = GetComponent<PreyVehicleLand>();
+        survivor = GetComponent<SurvivorVehicleLand>();
     }
 
     public override TaskStatus OnUpdate()
@@ -22,6 +24,12 @@ public class BTWander : Action
         if (prey != null)
         {
             prey.Patrullar();
+            return TaskStatus.Success;
+        }
+
+        if (survivor != null)
+        {
+            survivor.Patrullar();
             return TaskStatus.Success;
         }
 

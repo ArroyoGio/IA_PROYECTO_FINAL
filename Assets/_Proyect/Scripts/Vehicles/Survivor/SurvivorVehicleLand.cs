@@ -1,39 +1,59 @@
-//using UnityEngine;
+using UnityEngine;
 
-//public abstract class SurvivorVehicleLand : AICharacterVehicle
-//{
-//    [Header("Survivor Vehicle Settings")]
-//    public float rotationSpeed = 3f;
-//    public float hideSpeed = 1f;
+public abstract class SurvivorVehicleLand : AICharacterVehicle
+{
+    protected float normalMaxSpeed;
+    protected bool hasNormalMaxSpeed;
 
-//    public override void Move(Vector3 target)
-//    {
-//        if (rb == null) return;
+    public override void LoadComponent()
+    {
+        base.LoadComponent();
+        CacheNormalSpeed();
+    }
 
-//        Vector3 direction = (target - transform.position).normalized;
-//        Vector3 desiredVelocity = direction * maxSpeed;
-//        Vector3 steeringForce = desiredVelocity - rb.linearVelocity;
-//        steeringForce = Vector3.ClampMagnitude(steeringForce, maxForce);
+    public virtual void Patrullar()
+    {
+        CacheNormalSpeed();
+        WanderBehaviour();
+    }
 
-//        rb.AddForce(steeringForce, ForceMode.Force);
+    public virtual void SetSpeedMultiplier(float multiplier)
+    {
+        CacheNormalSpeed();
+        maxSpeed = normalMaxSpeed * multiplier;
+    }
 
-//        if (rb.linearVelocity.magnitude > 0.1f)
-//        {
-//            Quaternion targetRotation = Quaternion.LookRotation(rb.linearVelocity.normalized);
-//            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
-//        }
-//    }
+    public virtual void CambiarPosicion()
+    {
+        Patrullar();
+    }
 
-//    public void MoveToHide(Vector3 hideSpot)
-//    {
-//        float originalSpeed = maxSpeed;
-//        maxSpeed = hideSpeed;
-//        Move(hideSpot);
-//        maxSpeed = originalSpeed;
-//    }
+    public virtual void EvadeEnemy()
+    {
+        if (eye == null || eye.ViewEnemy == null)
+            return;
 
-//    public override void UpdateAI()
-//    {
-//        // Las clases hijas implementan su l�gica espec�fica
-//    }
-//}
+        Vector3 enemyVelocity = Vector3.zero;
+        AICharacterVehicle enemyVehicle = eye.ViewEnemy.GetComponent<AICharacterVehicle>();
+
+        if (enemyVehicle != null)
+            enemyVelocity = enemyVehicle.GetVelocity();
+
+        EvadeBehaviour(eye.ViewEnemy.transform, enemyVelocity);
+    }
+
+    public virtual void RestoreNormalSpeed()
+    {
+        if (hasNormalMaxSpeed)
+            maxSpeed = normalMaxSpeed;
+    }
+
+    protected void CacheNormalSpeed()
+    {
+        if (hasNormalMaxSpeed)
+            return;
+
+        normalMaxSpeed = maxSpeed;
+        hasNormalMaxSpeed = true;
+    }
+}
