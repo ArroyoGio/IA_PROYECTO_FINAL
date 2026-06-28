@@ -2,13 +2,23 @@ using UnityEngine;
 
 public class OctopusActionLand : PreyActionLand
 {
-    [Header("Octopus Defense")]
-    public float camouflage = 100f;
+    [Header("Octopus Ink")]
     public float ink = 100f;
     public float inkCost = 40f;
     public float inkRange = 8f;
-    public float camouflageDrain = 10f;
-    public float camouflageRecover = 8f;
+    public float inkCooldown = 3f;
+    public float inkCloudDuration = 6f;
+    public float inkRecoverRate = 15f;
+    public ParticleSystem inkParticlePrefab;
+
+    private const float MaxCamouflage = 100f;
+    private const float CamouflageDrain = 10f;
+    private const float CamouflageRecover = 8f;
+
+    private float camouflageValue = MaxCamouflage;
+    private float lastInkTime = -999f;
+
+    public float camouflage => camouflageValue;
 
     private AICharacterVehicle vehicle;
     private float normalMaxSpeed;
@@ -39,13 +49,14 @@ public class OctopusActionLand : PreyActionLand
     private void Update()
     {
         base.UpdateAI();
+        RecoverInk();
         UpdateOctopusBlackboard();
         UpdateRestSpeed();
 
         if (!isCamouflaging)
             RecuperarCamuflaje();
 
-        if (!isCamouflaging || camouflage <= 0f)
+        if (!isCamouflaging || camouflageValue <= 0f)
             RestoreVisibility();
 
         isCamouflaging = false;
@@ -74,14 +85,14 @@ public class OctopusActionLand : PreyActionLand
 
     public void Camuflarse()
     {
-        if (camouflage <= 0f)
+        if (camouflageValue <= 0f)
         {
             RestoreVisibility();
             return;
         }
 
         isCamouflaging = true;
-        camouflage = Mathf.Clamp(camouflage - camouflageDrain * Time.deltaTime, 0f, 100f);
+        camouflageValue = Mathf.Clamp(camouflageValue - CamouflageDrain * Time.deltaTime, 0f, MaxCamouflage);
 
         if (eye != null)
         {
@@ -97,7 +108,16 @@ public class OctopusActionLand : PreyActionLand
 
     public void RecuperarCamuflaje()
     {
-        camouflage = Mathf.Clamp(camouflage + camouflageRecover * Time.deltaTime, 0f, 100f);
+        camouflageValue = Mathf.Clamp(camouflageValue + CamouflageRecover * Time.deltaTime, 0f, MaxCamouflage);
+    }
+
+    private void RecoverInk()
+    {
+        if (ink < 100f)
+        {
+            ink += inkRecoverRate * Time.deltaTime;
+            ink = Mathf.Clamp(ink, 0f, 100f);
+        }
     }
 
     public bool PuedeLiberarTinta()
@@ -106,56 +126,50 @@ public class OctopusActionLand : PreyActionLand
             return false;
 
         float distance = Vector3.Distance(transform.position, eye.ViewEnemy.transform.position);
-        return distance <= inkRange && ink >= inkCost;
+        bool isInRange = distance <= inkRange;
+        bool hasInk = ink >= inkCost;
+        bool cooldownReady = Time.time >= lastInkTime + inkCooldown;
+
+        return isInRange && hasInk && cooldownReady;
     }
 
     public void LiberarTinta()
     {
-        if (!PuedeLiberarTinta())
+        if (eye == null || eye.ViewEnemy == null)
+        {
             return;
+        }
+
+        float distance = Vector3.Distance(transform.position, eye.ViewEnemy.transform.position);
+        if (distance > inkRange)
+        {
+            return;
+        }
+
+        if (ink < inkCost)
+        {
+            return;
+        }
+
+        if (Time.time < lastInkTime + inkCooldown)
+        {
+            return;
+        }
 
         ink = Mathf.Clamp(ink - inkCost, 0f, 100f);
+        lastInkTime = Time.time;
         fear = Mathf.Clamp(fear + 20f, 0f, maxFear);
-        Debug.Log("Octopus liberó tinta");
+
+        if (inkParticlePrefab != null)
+        {
+            ParticleSystem inkEffect = Instantiate(inkParticlePrefab, transform.position, Quaternion.identity);
+            inkEffect.Play();
+            Destroy(inkEffect.gameObject, inkCloudDuration);
+        }
 
         PreyVehicleLand preyVehicle = vehicle as PreyVehicleLand;
         if (preyVehicle != null)
             preyVehicle.EvadeEnemy();
-
-        CreateInkCloud();
-    }
-
-    private void CreateInkCloud()
-    {
-        Vector3 back = -transform.forward;
-        Vector3 right = transform.right;
-
-        Vector3[] offsets =
-        {
-            back * 3f,
-            back * 4f + right * 1.8f,
-            back * 4f - right * 1.8f
-        };
-
-        float[] scales = { 5.5f, 4.5f, 4.8f };
-
-        for (int i = 0; i < offsets.Length; i++)
-        {
-            GameObject cloud = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            cloud.name = "Octopus Ink Cloud";
-            cloud.transform.position = transform.position + offsets[i] + Vector3.up * 0.4f;
-            cloud.transform.localScale = Vector3.one * scales[i];
-
-            Collider cloudCollider = cloud.GetComponent<Collider>();
-            if (cloudCollider != null)
-                Destroy(cloudCollider);
-
-            Renderer renderer = cloud.GetComponent<Renderer>();
-            if (renderer != null)
-                renderer.material.color = new Color(0f, 0f, 0f, 0.75f);
-
-            Destroy(cloud, 4f);
-        }
     }
 
     private void UpdateOctopusBlackboard()
@@ -163,9 +177,9 @@ public class OctopusActionLand : PreyActionLand
         if (blackboard == null)
             return;
 
-        blackboard.SetFloat("Camouflage", camouflage);
+        blackboard.SetFloat("Camouflage", camouflageValue);
         blackboard.SetFloat("Ink", ink);
-        blackboard.SetBool("CamuflajeDisponible", camouflage > 0f);
+        blackboard.SetBool("CamuflajeDisponible", camouflageValue > 0f);
         blackboard.SetBool("PuedeLiberarTinta", PuedeLiberarTinta());
     }
 
