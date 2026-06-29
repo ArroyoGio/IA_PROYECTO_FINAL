@@ -8,6 +8,10 @@ public class OxigenoBajo : Conditional
 
     public override TaskStatus OnUpdate()
     {
+        DiverActionLand diver = GetComponent<DiverActionLand>();
+        if (diver != null)
+            return diver.oxygen < 70f ? TaskStatus.Success : TaskStatus.Failure;
+
         Blackboard blackboard = GetComponent<Blackboard>();
         if (blackboard != null)
         {

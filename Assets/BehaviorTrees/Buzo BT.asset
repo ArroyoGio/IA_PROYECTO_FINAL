@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b23f08d2ae4cba14087c1ed36193d82b, type: 3}
+  m_Name: Buzo BT
+  m_EditorClassIdentifier: Assembly-CSharp-firstpass::BehaviorDesigner.Runtime.ExternalBehaviorTree
+  mBehaviorSource:
+    behaviorName: Behavior
+    behaviorDescription: 
+    mTaskData:
+      types: []
+      parentIndex: 
+      startIndex: 
+      variableStartIndex: 
+      JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(892.9324,457.5912)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(2.932373,117.591187)"},"ID":1,"Name":"Selector","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-350.788055,108.160248)"},"ID":2,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"OxigenoBajo","NodeData":{"Offset":"(-82.36255,99.2039948)"},"ID":3,"Name":"Oxigeno
+        Bajo","Instant":true,"Singlethreshold":30},{"Type":"BTBuscarZonaSegura","NodeData":{"Offset":"(55.4420166,97.59102)"},"ID":4,"Name":"BT
+        Buscar Zona Segura","Instant":true}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-30.0563965,115.47731)"},"ID":5,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"PeligroAlto","NodeData":{"Offset":"(-69.56857,99.1358261)"},"ID":6,"Name":"Peligro
+        Alto","Instant":true},{"Type":"BTBuscarZonaSegura","NodeData":{"Offset":"(84.08995,99.1358261)"},"ID":7,"Name":"BT
+        Buscar Zona Segura","Instant":true}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(261.406921,119.135841)"},"ID":8,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"PuedeEscanear","NodeData":{"Offset":"(-33.9588928,100.355362)"},"ID":9,"Name":"Puede
+        Escanear","Instant":true},{"Type":"BTEscanear","NodeData":{"Offset":"(86.77279,99.13581)"},"ID":10,"Name":"BT
+        Escanear","Instant":true}]},{"Type":"BTDiverExplorar","NodeData":{"Offset":"(539.45575,144.745636)"},"ID":11,"Name":"BT
+        Diver Explorar","Instant":true}]}}'
+      fieldSerializationData:
+        typeName: []
+        fieldNameHash: 
+        startIndex: 
+        dataPosition: 
+        unityObjects: []
+        byteData: 
+        byteDataArray: 
+      Version: 1.7.13

@@ -1,114 +1,197 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
-//public class DiverActionLand : HumanActionLand
-//{
-//    [Header("Diver Settings")]
-//    public float oxygen = 100f;
-//    public float maxOxygen = 100f;
-//    public int ammo = 10;
-//    public int maxAmmo = 10;
-//    public float oxygenConsumption = 2f;
-//    public float energyConsumption = 1.5f;
-//    public float shootRange = 10f;
+public class DiverActionLand : HumanActionLand
+{
+    [Header("Diver Settings")]
+    public float oxygen = 100f;
+    public float danger = 0f;
+    public float explorationInterest = 70f;
+    public float scanRadius = 15f;
+    public float scanCooldown = 4f;
 
-//    private Wander wander;
-//    private Pursuit pursuit;
-//    private Arrive arrive;
+    private const float OxygenDrain = 2f;
+    private const float SafeHeight = 8f;
+    private const float AscendSpeed = 3f;
+    private const float OxygenRecoverRate = 35f;
+    private const float DangerDecayRate = 40f;
+    private const float ScanDistance = 3f;
 
-//    protected override void Awake()
-//    {
-//        base.Awake();
-//        wander = GetComponent<Wander>();
-//        pursuit = GetComponent<Pursuit>();
-//        arrive = GetComponent<Arrive>();
-//    }
+    private float lastScanTime = -999f;
+    private Transform currentScanTarget;
+    private bool isRecovering;
 
-//    // TODA la lógica va AQUÍ
-//    public override void UpdateAI()
-//    {
-//        oxygen -= oxygenConsumption * Time.deltaTime;
-//        energy -= energyConsumption * Time.deltaTime;
-//        oxygen = Mathf.Clamp(oxygen, 0, maxOxygen);
-//        energy = Mathf.Clamp(energy, 0, maxEnergy);
+    private void Awake()
+    {
+        LoadComponent();
+    }
 
-//        if (blackboard != null)
-//        {
-//            blackboard.SetFloat("Oxygen", oxygen);
-//            blackboard.SetFloat("Energy", energy);
-//            blackboard.SetInt("Ammo", ammo);
-//            blackboard.SetBool("OxigenoBajo", oxygen < 30f);
-//            blackboard.SetBool("EnergiaBaja", energy < 30f);
-//            blackboard.SetBool("MunicionBaja", ammo < 2);
-//            blackboard.SetBool("TieneMunicion", ammo > 0);
-//            blackboard.SetBool("VeCriatura", eye.HasTargets());
-//            blackboard.SetBool("CriaturaAlcance", IsCriaturaInRange());
-//        }
-//    }
+    private void Update()
+    {
+        UpdateAI();
+    }
 
-//    bool IsCriaturaInRange()
-//    {
-//        Transform target = eye.GetNearestTarget();
-//        if (target != null)
-//            return Vector3.Distance(transform.position, target.position) < shootRange;
-//        return false;
-//    }
+    public override void UpdateAI()
+    {
+        base.UpdateAI();
+        UpdateDiverState();
+        UpdateDiverBlackboard();
+    }
 
-//    public void GoToSurface()
-//    {
-//        Vector3 surfacePosition = new Vector3(transform.position.x, 0f, transform.position.z);
-//        if (arrive != null)
-//        {
-//            GameObject surfaceTarget = new GameObject("SurfaceTarget");
-//            surfaceTarget.transform.position = surfacePosition;
-//            arrive.SetTarget(surfaceTarget.transform);
-//            arrive.isActive = true;
-//            steering.AddBehavior(arrive);
-//        }
-//        oxygen += 30f * Time.deltaTime;
-//        oxygen = Mathf.Clamp(oxygen, 0, maxOxygen);
-//    }
+    public void Explorar()
+    {
+        if (diverVehicle != null)
+            diverVehicle.Patrullar();
 
-//    public void RecargarMunicion() => ammo = maxAmmo;
+        explorationInterest = Mathf.Clamp(explorationInterest - 2f * Time.deltaTime, 0f, 100f);
+    }
 
-//    public void Cazar()
-//    {
-//        Transform prey = eye.GetNearestTarget();
-//        if (prey != null && ammo > 0)
-//            Pursue(prey);
-//    }
+    public void BuscarZonaSegura()
+    {
+        isRecovering = true;
 
-//    public void Disparar()
-//    {
-//        Transform prey = eye.GetNearestTarget();
-//        if (prey != null && ammo > 0 && Vector3.Distance(transform.position, prey.position) < shootRange)
-//        {
-//            HealthBase health = prey.GetComponent<HealthBase>();
-//            if (health != null)
-//            {
-//                health.ApplyDamage(35f, WeaponType.Normal);
-//                ammo--;
-//            }
-//        }
-//    }
+        Transform predator = GetDetectedPredator();
+        if (predator != null && diverVehicle != null)
+            diverVehicle.FleeFrom(predator);
 
-//    public void Pursue(Transform target)
-//    {
-//        if (pursuit != null && target != null)
-//        {
-//            pursuit.SetTarget(target);
-//            pursuit.isActive = true;
-//            steering.AddBehavior(pursuit);
-//        }
-//    }
+        UpdateRecovery();
+    }
 
-//    public void Explorar()
-//    {
-//        if (wander != null)
-//        {
-//            wander.isActive = true;
-//            steering.AddBehavior(wander);
-//        }
-//    }
+    public bool Escanear()
+    {
+        currentScanTarget = GetClosestScanTarget();
+        if (currentScanTarget == null)
+            return false;
 
-//    public override void PerformAction() { }
-//}
+        float distance = Vector3.Distance(transform.position, currentScanTarget.position);
+        if (distance > ScanDistance)
+        {
+            if (diverVehicle != null)
+                diverVehicle.MoveToTarget(currentScanTarget.position);
+
+            return true;
+        }
+
+        if (diverVehicle != null)
+            diverVehicle.Stop();
+
+        lastScanTime = Time.time;
+        explorationInterest = Mathf.Clamp(explorationInterest + 15f, 0f, 100f);
+
+        if (blackboard != null)
+            blackboard.SetFloat("ScannedCreatures", 1f);
+
+        return true;
+    }
+
+    private void UpdateDiverState()
+    {
+        if (isRecovering)
+        {
+            UpdateRecovery();
+            return;
+        }
+
+        oxygen = Mathf.Clamp(oxygen - OxygenDrain * Time.deltaTime, 0f, 100f);
+
+        bool seesDanger = GetDetectedPredator() != null;
+        danger = seesDanger
+            ? Mathf.Clamp(danger + 10f * Time.deltaTime, 0f, 100f)
+            : Mathf.Clamp(danger - 5f * Time.deltaTime, 0f, 100f);
+    }
+
+    private void UpdateRecovery()
+    {
+        if (transform.position.y < SafeHeight)
+            transform.position += Vector3.up * AscendSpeed * Time.deltaTime;
+
+        oxygen = Mathf.Clamp(oxygen + OxygenRecoverRate * Time.deltaTime, 0f, 100f);
+        danger = Mathf.Clamp(danger - DangerDecayRate * Time.deltaTime, 0f, 100f);
+
+        if (oxygen >= 90f && danger <= 20f)
+        {
+            isRecovering = false;
+            explorationInterest = 100f;
+        }
+    }
+
+    public bool CanScan()
+    {
+        return Time.time >= lastScanTime + scanCooldown &&
+               !isRecovering &&
+               danger <= 60f &&
+               GetDetectedPredator() == null &&
+               GetClosestScanTarget() != null;
+    }
+
+    public bool HasHighDanger()
+    {
+        return danger > 60f || GetDetectedPredator() != null;
+    }
+
+    private Transform GetDetectedPredator()
+    {
+        if (eye == null || eye.ViewEnemy == null)
+            return null;
+
+        Transform target = eye.ViewEnemy.transform;
+        return IsInLayerHierarchy(target, "Predator") ? target : null;
+    }
+
+    private Transform GetClosestScanTarget()
+    {
+        int scanMask = LayerMask.GetMask("Prey", "Survivor", "Ambient");
+        Collider[] targets = Physics.OverlapSphere(transform.position, scanRadius, scanMask);
+
+        Transform closest = null;
+        float closestDistance = float.MaxValue;
+
+        for (int i = 0; i < targets.Length; i++)
+        {
+            Transform target = targets[i].transform;
+            float distance = Vector3.Distance(transform.position, target.position);
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closest = target;
+            }
+        }
+
+        return closest;
+    }
+
+    private bool IsInLayerHierarchy(Transform target, string layerName)
+    {
+        int layer = LayerMask.NameToLayer(layerName);
+        if (layer < 0 || target == null)
+            return false;
+
+        Transform current = target;
+        while (current != null)
+        {
+            if (current.gameObject.layer == layer)
+                return true;
+
+            current = current.parent;
+        }
+
+        return false;
+    }
+
+    private void UpdateDiverBlackboard()
+    {
+        if (blackboard == null)
+            return;
+
+        blackboard.SetFloat("Oxygen", oxygen);
+        blackboard.SetFloat("Energy", energy);
+        blackboard.SetFloat("Danger", danger);
+        blackboard.SetFloat("ExplorationInterest", explorationInterest);
+        blackboard.SetFloat("ScanRadius", scanRadius);
+        blackboard.SetFloat("ScannedCreatures", currentScanTarget != null ? 1f : 0f);
+        blackboard.SetBool("OxigenoBajo", oxygen < 70f);
+        blackboard.SetBool("EnergiaBaja", energy < UpEnergiaBaja);
+        blackboard.SetBool("PeligroAlto", HasHighDanger());
+        blackboard.SetBool("PuedeEscanear", CanScan());
+        blackboard.SetBool("InteresExploracionAlto", explorationInterest > 40f);
+    }
+}
