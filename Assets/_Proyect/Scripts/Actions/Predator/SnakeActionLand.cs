@@ -1,92 +1,127 @@
-//using UnityEngine;
+ï»¿using UnityEngine;
 
-//public class SnakeActionLand : PredatorActionLand
-//{
-   
-//    public float bioEnergy = 100f;
-//    public float maxBioEnergy = 100f;
-//    public float stealth = 50f;
-//    public float maxStealth = 100f;
-//    public float flashCost = 20f;
+public class SnakeActionLand : PredatorActionLand
+{
+    [Header("Snake Settings")]
+    public float bioluminescentEnergy = 100f;
+    public float stealth = 70f;
+    public bool preyConfused = false;
+    public float flashCost = 30f;
+    public float flashRange = 20f;
+    public float attackCooldown = 2f;
+    public ParticleSystem flashParticlePrefab;
+    public float flashEffectDuration = 2f;
 
+    private SnakeVehicleLand snakeVehicle;
+    private float lastAttackTime = -999f;
+    private float distanciaPresa;
 
+    private void Awake()
+    {
+        LoadComponent();
+    }
 
-//    void Awake()
-//    {
-//        LoadComponent();
+    public override void LoadComponent()
+    {
+        base.LoadComponent();
+        snakeVehicle = GetComponent<SnakeVehicleLand>();
+    }
 
-//    }
-//    public override void LoadComponent()
-//    {
-//        base.LoadComponent();
+    private void Update()
+    {
+        UpdateAI();
+    }
 
-//    }
-//    private void Update()
-//    {
-//        base.UpdateAI();
+    public override void UpdateAI()
+    {
+        base.UpdateAI();
+        UpdateSnakeState();
+        UpdateSnakeBlackboard();
+    }
 
-//    }
+    public void MovimientoSigiloso()
+    {
+        if (snakeVehicle != null)
+            snakeVehicle.MoveStealth();
+    }
 
-//    //TODA la lógica va AQUÍ
-//    public override void UpdateAI()
-//    {
-//        hunger += 1.2f * Time.deltaTime;
-//        hunger = Mathf.Clamp(hunger, 0, maxHunger);
+    public void EmitirDestello()
+    {
+        if (!CanFlash())
+            return;
 
-//        bioEnergy += 0.5f * Time.deltaTime;
-//        bioEnergy = Mathf.Clamp(bioEnergy, 0, maxBioEnergy);
+        bioluminescentEnergy = Mathf.Clamp(bioluminescentEnergy - flashCost, 0f, 100f);
+        preyConfused = true;
+        CreateFlashVisual();
+    }
 
-//        if (blackboard != null)
-//        {
-//            blackboard.SetFloat("Hunger", hunger);
-//            blackboard.SetFloat("BioEnergy", bioEnergy);
-//            blackboard.SetFloat("Stealth", stealth);
-//            blackboard.SetBool("HambreAlta", hunger > 70f);
-//            blackboard.SetBool("EnergiaBioluminiscenteAlta", bioEnergy > 30f);
-//            blackboard.SetBool("EnergiaBioluminiscenteBaja", bioEnergy < 20f);
-//            blackboard.SetBool("VePresa", eye.HasTargets());
-//            blackboard.SetBool("PresaAlcance", IsTargetInRange(eye.GetNearestTarget()));
-//        }
-//    }
+    public void Attack()
+    {
+        if (!preyConfused)
+            return;
 
-//    public void EmitirDestello()
-//    {
-//        if (bioEnergy >= flashCost)
-//        {
-//            bioEnergy -= flashCost;
+        if (Time.time < lastAttackTime + attackCooldown)
+            return;
 
-//            Collider[] targets = Physics.OverlapSphere(transform.position, 10f, LayerMask.GetMask("Fish", "Dolphin"));
-//            foreach (var target in targets)
-//            {
-//                var prey = target.GetComponent<PreyActionLand>();
-//                if (prey != null)
-//                {
-//                    prey.fear = Mathf.Min(100, prey.fear + 30f);
-//                }
-//            }
-//        }
-//    }
+        if (eye == null || eye.ViewEnemy == null)
+            return;
 
-//    public void Constreñir()
-//    {
-//        Transform prey = eye.GetNearestTarget();
-//        if (prey != null && Vector3.Distance(transform.position, prey.position) < attackRange)
-//        {
-//            HealthBase health = prey.GetComponent<HealthBase>();
-//            if (health != null)
-//            {
-//                health.ApplyDamage(30f, WeaponType.Poison);
-//                hunger = Mathf.Max(0, hunger - 25f);
-//            }
-//        }
-//    }
+        Transform prey = eye.ViewEnemy.transform;
+        if (!IsTargetInRange(prey))
+            return;
 
-    
-//    public void Recargar()
-//    {
-//        bioEnergy += 15f * Time.deltaTime;
-//        bioEnergy = Mathf.Clamp(bioEnergy, 0, maxBioEnergy);
-//    }
+        HealthBase preyHealth = prey.GetComponentInParent<HealthBase>();
+        if (preyHealth == null || preyHealth.IsDead)
+            return;
 
-//    public override void PerformAction() { }
-//}
+        preyHealth.ApplyDamage(attackDamage, weaponType);
+        lastAttackTime = Time.time;
+        hunger = Mathf.Clamp(hunger - 25f, 0f, maxHunger);
+        preyConfused = false;
+    }
+
+    public void RecargarBioluminiscencia()
+    {
+        bioluminescentEnergy = Mathf.Clamp(bioluminescentEnergy + 15f * Time.deltaTime, 0f, 100f);
+    }
+
+    public bool CanFlash()
+    {
+        return eye != null &&
+               eye.ViewEnemy != null &&
+               bioluminescentEnergy >= flashCost &&
+               Vector3.Distance(transform.position, eye.ViewEnemy.transform.position) <= flashRange;
+    }
+
+    private void UpdateSnakeState()
+    {
+        if (eye != null && eye.ViewEnemy != null)
+            distanciaPresa = Vector3.Distance(transform.position, eye.ViewEnemy.transform.position);
+        else
+            distanciaPresa = float.MaxValue;
+
+        RecargarBioluminiscencia();
+    }
+
+    private void UpdateSnakeBlackboard()
+    {
+        if (blackboard == null)
+            return;
+
+        blackboard.SetFloat("BioluminescentEnergy", bioluminescentEnergy);
+        blackboard.SetFloat("Stealth", stealth);
+        blackboard.SetFloat("DistanciaPresa", distanciaPresa);
+        blackboard.SetBool("PreyConfused", preyConfused);
+        blackboard.SetBool("PuedeEmitirDestello", CanFlash());
+    }
+
+    private void CreateFlashVisual()
+    {
+        if (flashParticlePrefab == null)
+            return;
+
+        ParticleSystem flashEffect = Instantiate(flashParticlePrefab, transform.position, Quaternion.identity);
+        flashEffect.Play();
+        Destroy(flashEffect.gameObject, flashEffectDuration);
+    }
+}
