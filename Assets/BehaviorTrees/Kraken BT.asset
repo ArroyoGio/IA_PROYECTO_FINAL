@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b23f08d2ae4cba14087c1ed36193d82b, type: 3}
+  m_Name: Kraken BT
+  m_EditorClassIdentifier: Assembly-CSharp-firstpass::BehaviorDesigner.Runtime.ExternalBehaviorTree
+  mBehaviorSource:
+    behaviorName: Behavior
+    behaviorDescription: 
+    mTaskData:
+      types: []
+      parentIndex: 
+      startIndex: 
+      variableStartIndex: 
+      JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(838.3028,389.442963)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(-1.69720459,119.442963)"},"ID":1,"Name":"Selector","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-360,150)"},"ID":2,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"ConditionHayPresa","NodeData":{"Offset":"(-55.5579147,117.968529)"},"ID":3,"Name":"Condition
+        Hay Presa","Instant":true},{"Type":"BTAtraparPresa","NodeData":{"Offset":"(93.22363,121.627014)"},"ID":4,"Name":"BT
+        Atrapar Presa","Instant":true}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(0,150)"},"ID":5,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"ConditionPuedeDespertar","NodeData":{"Offset":"(-95.31397,122.846535)"},"ID":6,"Name":"Condition
+        Puede Despertar","Instant":true},{"Type":"BTDespertar","NodeData":{"Offset":"(65.66162,117.968506)"},"ID":7,"Name":"BT
+        Despertar","Instant":true}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(290.849243,153.887268)"},"ID":8,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"ConditionDormido","NodeData":{"Offset":"(-86.41144,116.375732)"},"ID":9,"Name":"Condition
+        Dormido","Instant":true},{"Type":"BTDormir","NodeData":{"Offset":"(62.9787521,124.797806)"},"ID":10,"Name":"BT
+        Dormir","Instant":true}]},{"Type":"BTVolverADormir","NodeData":{"Offset":"(520,150)"},"ID":11,"Name":"BT
+        Volver A Dormir","Instant":true}]}}'
+      fieldSerializationData:
+        typeName: []
+        fieldNameHash: 
+        startIndex: 
+        dataPosition: 
+        unityObjects: []
+        byteData: 
+        byteDataArray: 
+      Version: 1.7.13

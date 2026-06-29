@@ -1,100 +1,106 @@
-//using UnityEngine;
+ï»¿using UnityEngine;
 
+public class KrakenActionLand : PredatorActionLand
+{
+    [Header("Kraken")]
+    public float TemporizadorDespertar = 0f;
+    public float Ira = 0f;
+    public float Fase = 0f;
+    public float DistanciaPresa = 999f;
 
-//public class KrakenActionLand : PredatorActionLand
-//{
-//    [Header("Kraken Settings")]
-//    public float wakeTimer = 0f;
-//    public float wakeTime = 30f;
- 
-//    public int[] phaseThresholds = { 70, 40 };
+    private const float TiempoDespertar = 10f;
+    private const float IraAtaque = 100f;
+    private KrakenVehicleLand krakenVehicle;
 
-//    public LayerMask preyLayer;
-//    void Awake()
-//    {
-//        LoadComponent();
-//        //wander = GetComponent<Wander>();
-//        //pursuit = GetComponent<Pursuit>();
-//    }
-//    public override void LoadComponent()
-//    {
-//        base.LoadComponent();
+    private void Awake()
+    {
+        LoadComponent();
+    }
 
-//    }
-//    private void Update()
-//    {
-//        UpdateAI();
+    public override void LoadComponent()
+    {
+        base.LoadComponent();
+        krakenVehicle = GetComponent<KrakenVehicleLand>();
+    }
 
-//    }
-//    //TODA la lógica va AQUÍ
-//    public override void UpdateAI()
-//    {
-//        wakeTimer += Time.deltaTime;
-//        base.UpdateAI();
-//    }
+    private void Update()
+    {
+        UpdateAI();
+    }
 
-//    public void Despertar()
-//    {
-//        wakeTimer = 0f;
-//    }
+    public override void UpdateAI()
+    {
+        base.UpdateAI();
+        UpdateKrakenState();
+        UpdateKrakenBlackboard();
+    }
 
-//    public int SeleccionarFase()
-//    {
-//        //float healthPercent = (health / maxHealth) * 100f;
+    public void Dormir()
+    {
+        Fase = 0f;
+        Ira = 0f;
 
-//        //if (healthPercent > phaseThresholds[0])
-//        //    phase = 1;
-//        //else if (healthPercent > phaseThresholds[1])
-//        //    phase = 2;
-//        //else
-//        //    phase = 3;
+        if (krakenVehicle != null)
+            krakenVehicle.Idle();
+    }
 
-//        //return phase;
-//        return 0;
-//    }
+    public void Despertar()
+    {
+        Fase = 1f;
+        Ira = IraAtaque;
+        TemporizadorDespertar = 0f;
+    }
 
-//    public void AtacarConTentaculo()
-//    {
-//        Transform prey = eye.GetNearestTarget();
-//        if (prey != null && Vector3.Distance(transform.position, prey.position) < attackRange * 2f)
-//        {
-//            HealthBase health = prey.GetComponent<HealthBase>();
-//            if (health != null)
-//                health.ApplyDamage(50f, WeaponType.Tentacle);
-//        }
-//    }
+    public void AtraparPresa()
+    {
+        if (eye == null || eye.ViewEnemy == null)
+            return;
 
-//    public void CrearTorbellino()
-//    {
-//        Collider[] targets = Physics.OverlapSphere(transform.position, 15f, preyLayer);
-//        foreach (var target in targets)
-//        {
-//            HealthBase health = target.GetComponent<HealthBase>();
-//            if (health != null)
-//                health.ApplyDamage(30f, WeaponType.Whirlpool);
-//        }
-//    }
+        Transform prey = eye.ViewEnemy.transform;
 
-//    public void RayoElectrico()
-//    {
-//        Transform prey = eye.GetNearestTarget();
-//        if (prey != null)
-//        {
-//            HealthBase health = prey.GetComponent<HealthBase>();
-//            if (health != null)
-//                health.ApplyDamage(40f, WeaponType.Lightning);
-//        }
-//    }
+        if (krakenVehicle != null)
+            krakenVehicle.Acercarse();
 
-//    public void Dormir()
-//    {
-//        wakeTimer = 0f;
-//    }
+        if (!IsTargetInRange(prey))
+            return;
 
-//    public void IncrementarTemporizador()
-//    {
-//        wakeTimer += Time.deltaTime;
-//    }
+        Attack(prey);
+        Ira = Mathf.Clamp(Ira - 20f, 0f, 100f);
+    }
 
-//    public override void PerformAction() { }
-//}
+    public void VolverADormir()
+    {
+        if (krakenVehicle != null)
+            krakenVehicle.Volver();
+
+        Ira = Mathf.Clamp(Ira - 15f * Time.deltaTime, 0f, 100f);
+
+        if (Ira <= 0f)
+            Dormir();
+    }
+
+    private void UpdateKrakenState()
+    {
+        if (Fase <= 0f)
+            TemporizadorDespertar += Time.deltaTime;
+
+        if (eye != null && eye.ViewEnemy != null)
+            DistanciaPresa = Vector3.Distance(transform.position, eye.ViewEnemy.transform.position);
+        else
+            DistanciaPresa = 999f;
+    }
+
+    private void UpdateKrakenBlackboard()
+    {
+        if (blackboard == null)
+            return;
+
+        blackboard.SetFloat("TemporizadorDespertar", TemporizadorDespertar);
+        blackboard.SetFloat("Ira", Ira);
+        blackboard.SetFloat("Fase", Fase);
+        blackboard.SetFloat("DistanciaPresa", DistanciaPresa);
+        blackboard.SetBool("Dormido", Fase <= 0f);
+        blackboard.SetBool("PuedeDespertar", Fase <= 0f && TemporizadorDespertar >= TiempoDespertar);
+        blackboard.SetBool("HayPresa", eye != null && eye.ViewEnemy != null);
+    }
+}

@@ -1,42 +1,35 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
-//public class KrakenVehicleLand : PredatorVehicleLand
-//{
-//    [Header("Kraken Vehicle")]
-//    public float wakeSpeed = 3f;
-//    public float chaseSpeed = 2f;
-//    public float tentacleRange = 15f;
+public class KrakenVehicleLand : PredatorVehicleLand
+{
+    private Vector3 startPosition;
 
-//    public override void UpdateAI()
-//    {
-//        // El movimiento se maneja a través de SteeringManager
-//    }
+    private void Awake()
+    {
+        LoadComponent();
+        startPosition = transform.position;
+    }
 
-//    public void MoveToPrey(Transform prey)
-//    {
-//        if (prey != null)
-//        {
-//            Move(prey.position);
-//        }
-//    }
+    public void Idle()
+    {
+        Stop();
+    }
 
-//    public void Retreat()
-//    {
-//        Vector3 retreatPosition = transform.position + transform.forward * -10f;
-//        Move(retreatPosition);
-//    }
+    public void Perseguir()
+    {
+        SeguirPrey();
+    }
 
-//    public bool IsInTentacleRange(Transform target)
-//    {
-//        if (target == null) return false;
-//        return Vector3.Distance(transform.position, target.position) < tentacleRange;
-//    }
+    public void Acercarse()
+    {
+        if (eye == null || eye.ViewEnemy == null)
+            return;
 
-//    public void WakeUpMove(Vector3 target)
-//    {
-//        float originalSpeed = maxSpeed;
-//        maxSpeed = wakeSpeed;
-//        Move(target);
-//        maxSpeed = originalSpeed;
-//    }
-//}
+        ArriveBehaviour(eye.ViewEnemy.transform.position, 6f);
+    }
+
+    public void Volver()
+    {
+        ArriveBehaviour(startPosition, 8f);
+    }
+}
