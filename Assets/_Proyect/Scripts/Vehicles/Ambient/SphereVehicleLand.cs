@@ -1,28 +1,39 @@
-//using UnityEngine;
+ï»¿using UnityEngine;
 
-//public class SphereVehicleLand : AmbientVehicleLand
-//{
-//    [Header("Sphere Vehicle")]
-//    public float bobSpeed = 0.5f;
-//    public float bobHeight = 0.3f;
-//    private Vector3 startPosition;
+public class SphereVehicleLand : AICharacterVehicle
+{
+    private const float ReturnDistance = 8f;
 
-//    protected override void Awake()
-//    {
-//        base.Awake();
-//        startPosition = transform.position;
-//        isStationary = true;
-//    }
+    private Vector3 centerPosition;
 
-//    void Update()
-//    {
-//        // Movimiento de flotación (bob)
-//        float bobOffset = Mathf.Sin(Time.time * bobSpeed) * bobHeight;
-//        transform.position = startPosition + Vector3.up * bobOffset;
-//    }
+    private void Awake()
+    {
+        LoadComponent();
+        centerPosition = transform.position;
+    }
 
-//    public override void UpdateAI()
-//    {
-//        // La esfera solo flota, no necesita IA de movimiento
-//    }
-//}
+    private void Update()
+    {
+        Float();
+    }
+
+    public void Float()
+    {
+        Vector3 position = transform.position;
+        position.y = centerPosition.y + Mathf.Sin(Time.time) * 0.3f;
+        transform.position = position;
+    }
+
+    public void PatrullarSuave()
+    {
+        WanderBehaviour();
+    }
+
+    public void ReturnToCenter()
+    {
+        if (Vector3.Distance(transform.position, centerPosition) <= ReturnDistance)
+            return;
+
+        ArriveBehaviour(centerPosition, 3f);
+    }
+}

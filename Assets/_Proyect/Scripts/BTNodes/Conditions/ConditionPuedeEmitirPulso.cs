@@ -1,0 +1,21 @@
+using BehaviorDesigner.Runtime.Tasks;
+
+public class ConditionPuedeEmitirPulso : Conditional
+{
+    private SphereActionLand sphere;
+
+    public override void OnAwake()
+    {
+        sphere = GetComponent<SphereActionLand>();
+    }
+
+    public override TaskStatus OnUpdate()
+    {
+        if (sphere == null)
+            return TaskStatus.Failure;
+
+        return sphere.CanPulse()
+            ? TaskStatus.Success
+            : TaskStatus.Failure;
+    }
+}

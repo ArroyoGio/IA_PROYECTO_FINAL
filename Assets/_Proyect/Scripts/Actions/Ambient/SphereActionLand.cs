@@ -1,121 +1,109 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
-//public class SphereActionLand : AmbientActionLand
-//{
-//    [Header("Sphere Settings")]
-//    public float intensity = 50f;
-//    public float maxIntensity = 100f;
-//    public float radius = 15f;
-//    public float maxRadius = 20f;
-//    public float cycleTime = 10f;
-//    public float attractionForce = 5f;
-//    public float repulsionForce = 8f;
+public class SphereActionLand : AICharacterAction
+{
+    [Header("Sphere Settings")]
+    public float intensity = 100f;
+    public float influenceRadius = 20f;
+    public float pulseInterval = 5f;
+    public float stability = 100f;
+    public ParticleSystem pulseParticlePrefab;
 
-//    private Light sphereLight;
-//    private ParticleSystem particles;
-//    private float cycleTimer = 0f;
+    private float lastPulseTime = -999f;
+    private int nearbyPreyCount;
+    private int nearbyPredatorCount;
+    private bool pulseActive;
 
-//    protected override void Awake()
-//    {
-//        base.Awake();
-//        sphereLight = GetComponent<Light>();
-//        particles = GetComponent<ParticleSystem>();
-//    }
+    private void Awake()
+    {
+        LoadComponent();
+    }
 
-//    public override void UpdateAI()
-//    {
-//        cycleTimer += Time.deltaTime;
-//        timer += Time.deltaTime;
+    private void Update()
+    {
+        UpdateAI();
+    }
 
-//        if (timer >= pulseInterval)
-//        {
-//            EmitPulse();
-//        }
+    public override void UpdateAI()
+    {
+        UpdateSphereBlackboard();
+    }
 
-//        if (blackboard != null)
-//        {
-//            blackboard.SetFloat("Intensity", intensity);
-//            blackboard.SetFloat("Radius", radius);
-//            blackboard.SetFloat("Cycle", cycleTimer);
-//        }
+    public bool CanPulse()
+    {
+        return energy >= 20f && Time.time >= lastPulseTime + pulseInterval;
+    }
 
-//        PulseCycle();
-//    }
+    public void EmitirPulso()
+    {
+        if (!CanPulse())
+            return;
 
-//    public void CalcularIntensidad()
-//    {
-//        intensity = 50f + 50f * Mathf.Sin(cycleTimer * (2f * Mathf.PI / cycleTime));
-//        intensity = Mathf.Clamp(intensity, 10f, maxIntensity);
+        energy = Mathf.Clamp(energy - 20f, 0f, 100f);
+        lastPulseTime = Time.time;
+        pulseActive = true;
 
-//        radius = 10f + intensity / 10f;
-//        radius = Mathf.Clamp(radius, 5f, maxRadius);
+        AtraerPeces();
+        RepelerDepredadores();
+        ReducirIntensidad();
 
-//        if (sphereLight != null)
-//        {
-//            sphereLight.intensity = intensity / 20f;
-//        }
-//    }
+        if (pulseParticlePrefab != null)
+        {
+            ParticleSystem pulseEffect = Instantiate(pulseParticlePrefab, transform.position, Quaternion.identity);
+            pulseEffect.Play();
+            Destroy(pulseEffect.gameObject, 2f);
+        }
+    }
 
-//    public new void EmitPulse()
-//    {
-//        base.EmitPulse();
+    public void AtraerPeces()
+    {
+        Collider[] preyObjects = Physics.OverlapSphere(transform.position, influenceRadius, LayerMask.GetMask("Prey"));
+        nearbyPreyCount = preyObjects.Length;
+        pulseActive = nearbyPreyCount > 0;
 
-//        if (particles != null)
-//        {
-//            particles.Emit((int)intensity / 5);
-//        }
+        for (int i = 0; i < preyObjects.Length; i++)
+        {
+            AICharacterVehicle preyVehicle = preyObjects[i].GetComponentInParent<AICharacterVehicle>();
+            if (preyVehicle != null)
+                preyVehicle.ArriveBehaviour(transform.position, influenceRadius);
+        }
+    }
 
-//        timer = 0f;
-//    }
+    public void RepelerDepredadores()
+    {
+        Collider[] predatorObjects = Physics.OverlapSphere(transform.position, influenceRadius, LayerMask.GetMask("Predator"));
+        nearbyPredatorCount = predatorObjects.Length;
+        pulseActive = pulseActive || nearbyPredatorCount > 0;
 
-//    public void AtraerPeces()
-//    {
-//        Collider[] fish = Physics.OverlapSphere(transform.position, radius, LayerMask.GetMask("Fish"));
-//        foreach (var fishObj in fish)
-//        {
-//            FishActionLand fishAction = fishObj.GetComponent<FishActionLand>();
-//            if (fishAction != null)
-//            {
-//                Vector3 direction = (transform.position - fishObj.transform.position).normalized;
-//                fishAction.steering.AddForce(direction * attractionForce * (intensity / 100f));
-//                fishAction.fear = Mathf.Max(0, fishAction.fear - 5f * Time.deltaTime);
-//            }
-//        }
-//    }
+        for (int i = 0; i < predatorObjects.Length; i++)
+        {
+            AICharacterVehicle predatorVehicle = predatorObjects[i].GetComponentInParent<AICharacterVehicle>();
+            if (predatorVehicle != null)
+                predatorVehicle.FleeBehaviour(transform.position);
+        }
+    }
 
-//    public void RepelerDepredadores()
-//    {
-//        Collider[] predators = Physics.OverlapSphere(transform.position, radius, LayerMask.GetMask("Shark", "Snake"));
-//        foreach (var predator in predators)
-//        {
-//            PredatorActionLand predatorAction = predator.GetComponent<PredatorActionLand>();
-//            if (predatorAction != null)
-//            {
-//                Vector3 direction = (predator.transform.position - transform.position).normalized;
-//                predatorAction.steering.AddForce(direction * repulsionForce * (intensity / 100f));
-//            }
-//        }
-//    }
+    public void ReducirIntensidad()
+    {
+        if (energy < 20f)
+            intensity = Mathf.Clamp(intensity - 10f * Time.deltaTime, 0f, 100f);
+    }
 
-//    public void PulseCycle()
-//    {
-//        CalcularIntensidad();
-//        EmitPulse();
-//        AtraerPeces();
-//        RepelerDepredadores();
-//    }
+    private void UpdateSphereBlackboard()
+    {
+        ReducirIntensidad();
 
-//    public override void PerformAction()
-//    {
-//        PulseCycle();
-//    }
+        if (blackboard == null)
+            return;
 
-//    // ============================================
-//    // MÉTODOS PÚBLICOS PARA EL BEHAVIOR TREE (ESPAÑOL)
-//    // ============================================
-
-//    public void EmitirPulso()
-//    {
-//        EmitPulse();
-//    }
-//}
+        blackboard.SetFloat("Intensity", intensity);
+        blackboard.SetFloat("InfluenceRadius", influenceRadius);
+        blackboard.SetFloat("PulseInterval", pulseInterval);
+        blackboard.SetFloat("Energy", energy);
+        blackboard.SetFloat("Stability", stability);
+        blackboard.SetBool("PuedeEmitirPulso", CanPulse());
+        blackboard.SetBool("PulseActive", pulseActive);
+        blackboard.SetFloat("NearbyPrey", nearbyPreyCount);
+        blackboard.SetFloat("NearbyPredators", nearbyPredatorCount);
+    }
+}
