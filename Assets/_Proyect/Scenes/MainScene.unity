@@ -562,9 +562,13 @@ PrefabInstance:
       propertyPath: hunger
       value: 50
       objectReference: {fileID: 0}
+    - target: {fileID: 985790947654394175, guid: 17a2207ba51fe784e8b24a261d2ac47a, type: 3}
+      propertyPath: IsDrawGizmo
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1345347724787458470, guid: 17a2207ba51fe784e8b24a261d2ac47a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 33.41497
+      value: 83.3
       objectReference: {fileID: 0}
     - target: {fileID: 1345347724787458470, guid: 17a2207ba51fe784e8b24a261d2ac47a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -572,7 +576,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1345347724787458470, guid: 17a2207ba51fe784e8b24a261d2ac47a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -14
+      value: -97.2
       objectReference: {fileID: 0}
     - target: {fileID: 1345347724787458470, guid: 17a2207ba51fe784e8b24a261d2ac47a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2174,6 +2178,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6915358389848822654, guid: d978a6574aa24a14fa4af337c6d9b9d8, type: 3}
+      propertyPath: IsDrawGizmo
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2362,6 +2370,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1807545074}
     m_Modifications:
+    - target: {fileID: 2701523929202072652, guid: 3470ab6fcb7916f42b7586b22c54d991, type: 3}
+      propertyPath: IsDrawGizmo
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3882756694216448678, guid: 3470ab6fcb7916f42b7586b22c54d991, type: 3}
       propertyPath: m_Name
       value: Dolphin
