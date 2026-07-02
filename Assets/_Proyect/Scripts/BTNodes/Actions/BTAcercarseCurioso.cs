@@ -14,7 +14,13 @@ public class BTAcercarseCurioso : Action
         if (dolphin == null)
             return TaskStatus.Failure;
 
+        if (!dolphin.HasCuriosityTarget())
+            return TaskStatus.Failure;
+
         dolphin.AcercarseCurioso();
-        return TaskStatus.Success;
+
+        return dolphin.IsCuriosityTargetReached()
+            ? TaskStatus.Success
+            : TaskStatus.Running;
     }
 }

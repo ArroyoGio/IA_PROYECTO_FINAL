@@ -16,6 +16,7 @@ public class DolphinActionLand : PreyActionLand
     private bool hasNormalMaxSpeed;
     private bool isSwimmingSlow;
     private float distanciaAmenaza;
+    private Transform currentCuriosityTarget;
 
     private void Awake()
     {
@@ -63,7 +64,7 @@ public class DolphinActionLand : PreyActionLand
 
     public void AcercarseCurioso()
     {
-        if (curiosity < curiosityHighThreshold || confidence < confidenceSafeThreshold)
+        if (curiosity < curiosityHighThreshold || confidence < confidenceSafeThreshold || !HasCuriosityTarget())
             return;
 
         if (dolphinVehicle != null)
@@ -72,6 +73,29 @@ public class DolphinActionLand : PreyActionLand
         curiosity = Mathf.Clamp(curiosity - 3f * Time.deltaTime, 0f, 100f);
         confidence = Mathf.Clamp(confidence + 2f * Time.deltaTime, 0f, 100f);
         energy = Mathf.Clamp(energy - 1.5f * Time.deltaTime, 0f, maxEnergy);
+    }
+
+    public bool HasCuriosityTarget()
+    {
+        if (eye != null && eye.ViewEnemy != null)
+        {
+            currentCuriosityTarget = null;
+            UpdateCuriosityTargetBlackboard();
+            return false;
+        }
+
+        currentCuriosityTarget = FindClosestCuriosityTarget();
+        UpdateCuriosityTargetBlackboard();
+        return currentCuriosityTarget != null;
+    }
+
+    public bool IsCuriosityTargetReached()
+    {
+        if (currentCuriosityTarget == null)
+            return false;
+
+        float arriveDistance = dolphinVehicle != null ? dolphinVehicle.curiousArriveDistance : 3f;
+        return Vector3.Distance(transform.position, currentCuriosityTarget.position) <= arriveDistance;
     }
 
     public void NadarLento()
@@ -117,6 +141,38 @@ public class DolphinActionLand : PreyActionLand
             blackboard.SetBool("CuriosidadAlta", curiosity >= curiosityHighThreshold);
             blackboard.SetBool("ConfianzaAlta", confidence >= confidenceSafeThreshold);
         }
+    }
+
+    private Transform FindClosestCuriosityTarget()
+    {
+        int curiosityMask = LayerMask.GetMask("Human", "Ambient");
+        if (curiosityMask == 0)
+            return null;
+
+        Collider[] targets = Physics.OverlapSphere(transform.position, actionRadius, curiosityMask);
+        Transform closest = null;
+        float closestDistance = float.MaxValue;
+
+        for (int i = 0; i < targets.Length; i++)
+        {
+            Transform target = targets[i].transform;
+            float distance = Vector3.Distance(transform.position, target.position);
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closest = target;
+            }
+        }
+
+        return closest;
+    }
+
+    private void UpdateCuriosityTargetBlackboard()
+    {
+        if (blackboard == null)
+            return;
+
+        blackboard.SetObject("CuriosityTarget", currentCuriosityTarget);
     }
 
     private void ApplySlowSpeed()

@@ -1,6 +1,6 @@
 using BehaviorDesigner.Runtime.Tasks;
 
-public class ConditionCuriosidadAlta : Conditional
+public class BTDolphinNadarLento : Action
 {
     private DolphinActionLand dolphin;
 
@@ -14,10 +14,9 @@ public class ConditionCuriosidadAlta : Conditional
         if (dolphin == null)
             return TaskStatus.Failure;
 
-        return dolphin.curiosity >= dolphin.curiosityHighThreshold &&
-               dolphin.confidence >= dolphin.confidenceSafeThreshold &&
-               dolphin.HasCuriosityTarget()
+        dolphin.NadarLento();
+        return dolphin.energy > dolphin.UpEnergiaBaja + 10f
             ? TaskStatus.Success
-            : TaskStatus.Failure;
+            : TaskStatus.Running;
     }
 }

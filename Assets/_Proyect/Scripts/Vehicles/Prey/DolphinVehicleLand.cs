@@ -24,14 +24,6 @@ public class DolphinVehicleLand : PreyVehicleLand
             return;
         }
 
-        AICharacterVehicle targetVehicle = target.GetComponent<AICharacterVehicle>();
-        if (targetVehicle != null)
-        {
-            Vector3 steering = Pursuit(target, targetVehicle.GetVelocity()) * curiousPursuitScale;
-            ApplySteering(steering);
-            return;
-        }
-
         ArriveBehaviour(target.position, curiousSlowingDistance);
     }
 
@@ -47,7 +39,6 @@ public class DolphinVehicleLand : PreyVehicleLand
             if (targetObject is GameObject targetGameObject)
                 return targetGameObject.transform;
         }
-
-        return eye != null && eye.ViewEnemy != null ? eye.ViewEnemy.transform : null;
+        return null;
     }
 }
