@@ -33,7 +33,6 @@ public class AlienFoodItem : MonoBehaviour
         FishActionLand fish = other.GetComponentInParent<FishActionLand>();
         if (fish != null)
         {
-            Debug.Log("AlienFoodItem tocado por FishActionLand: " + fish.gameObject.name);
             consumed = true;
             fish.Comer();
             Destroy(gameObject);
@@ -43,7 +42,6 @@ public class AlienFoodItem : MonoBehaviour
         OctopusActionLand octopus = other.GetComponentInParent<OctopusActionLand>();
         if (octopus != null)
         {
-            Debug.Log("AlienFoodItem tocado por OctopusActionLand: " + octopus.gameObject.name);
             consumed = true;
             octopus.Comer();
             Destroy(gameObject);

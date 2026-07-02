@@ -1,5 +1,4 @@
 using BehaviorDesigner.Runtime.Tasks;
-using UnityEngine;
 
 public class BTEmboscar : Action
 {
@@ -15,7 +14,6 @@ public class BTEmboscar : Action
         if (lobster == null)
             return TaskStatus.Failure;
 
-        Debug.Log("BT EMBOSCAR EJECUTADO");
         lobster.Emboscar();
         return TaskStatus.Success;
     }

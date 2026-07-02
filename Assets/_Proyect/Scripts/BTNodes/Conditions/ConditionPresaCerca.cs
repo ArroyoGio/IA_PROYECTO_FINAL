@@ -1,5 +1,4 @@
 using BehaviorDesigner.Runtime.Tasks;
-using UnityEngine;
 
 public class ConditionPresaCerca : Conditional
 {
@@ -16,7 +15,6 @@ public class ConditionPresaCerca : Conditional
             return TaskStatus.Failure;
 
         bool preyClose = lobster.IsPreyClose();
-        Debug.Log("PRESA CERCA " + (preyClose ? "true" : "false"));
 
         return preyClose
             ? TaskStatus.Success

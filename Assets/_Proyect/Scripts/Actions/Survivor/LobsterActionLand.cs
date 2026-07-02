@@ -63,7 +63,6 @@ public class LobsterActionLand : SurvivorActionLand
 
         if (Time.time < lastAttackTime + AttackCooldown)
         {
-            Debug.Log("EMBOSCAR cancelado por cooldown");
             return;
         }
 
@@ -80,14 +79,12 @@ public class LobsterActionLand : SurvivorActionLand
 
         if (Vector3.Distance(transform.position, currentPrey.position) > ambushRange)
         {
-            Debug.Log("EMBOSCAR cancelado por distancia");
             return;
         }
 
         HealthBase preyHealth = currentPrey.GetComponentInParent<HealthBase>();
         if (preyHealth == null)
         {
-            Debug.Log("EMBOSCAR cancelado por HealthBase null");
             return;
         }
 
@@ -95,7 +92,6 @@ public class LobsterActionLand : SurvivorActionLand
             return;
 
         preyHealth.ApplyDamage(ambushDamage, WeaponType.Normal);
-        Debug.Log("LOBSTER EMBOSCO");
         lastAttackTime = Time.time;
         hunger = Mathf.Clamp(hunger - 20f, 0f, maxHunger);
         patience = Mathf.Clamp(patience - PatienceCost, 0f, 100f);

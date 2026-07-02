@@ -564,7 +564,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 985790947654394175, guid: 17a2207ba51fe784e8b24a261d2ac47a, type: 3}
       propertyPath: IsDrawGizmo
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1345347724787458470, guid: 17a2207ba51fe784e8b24a261d2ac47a, type: 3}
       propertyPath: m_LocalPosition.x

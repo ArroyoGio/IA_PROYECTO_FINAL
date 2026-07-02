@@ -23,8 +23,8 @@ MonoBehaviour:
       JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(480.6667,115.333344)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(0.6666851,127.528465)"},"ID":1,"Name":"Selector","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-324.53656,124)"},"ID":2,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"ConditionPresaAlcance","NodeData":{"Offset":"(-90,112)"},"ID":3,"Name":"Condition
         Presa Alcance","Instant":true},{"Type":"BTBite","NodeData":{"Offset":"(60,110)"},"ID":4,"Name":"BT
         Bite","Instant":true}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(54.6341476,146.585358)"},"ID":5,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"ConditionHambreAlta","NodeData":{"Offset":"(-132.386932,124.1402)"},"ID":6,"Name":"Condition
-        Hambre Alta","Instant":true},{"Type":"ConditionVeDepredador","NodeData":{"Offset":"(43.75608,116.666687)"},"ID":7,"Name":"Condition
-        Ve Depredador","Instant":true},{"Type":"BTFollowPrey","NodeData":{"Offset":"(186.0325,123.333374)"},"ID":8,"Name":"BT
+        Hambre Alta","Instant":true},{"Type":"ConditionVePresa","NodeData":{"Offset":"(43.75608,116.666687)"},"ID":7,"Name":"Condition
+        Ve Presa","Instant":true},{"Type":"BTFollowPrey","NodeData":{"Offset":"(186.0325,123.333374)"},"ID":8,"Name":"BT
         Follow Prey","Instant":true}]},{"Type":"BTWander","NodeData":{"Offset":"(388.666748,113.333344)"},"ID":9,"Name":"BT
         Wander","Instant":true}]}}'
       fieldSerializationData:

@@ -36,7 +36,6 @@ public class HealingCoralItem : MonoBehaviour
         if (health == null || health.IsDead)
             return;
 
-        Debug.Log("HealingCoralItem tocado por HealthBase: " + health.gameObject.name);
         consumed = true;
         health.Heal(healAmount);
         Destroy(gameObject);
