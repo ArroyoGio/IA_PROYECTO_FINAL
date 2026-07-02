@@ -20,14 +20,14 @@ MonoBehaviour:
       parentIndex: 
       startIndex: 
       variableStartIndex: 
-      JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(480.6667,115.333344)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(0.6666851,127.528465)"},"ID":1,"Name":"Selector","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-771.9488,114.776581)"},"ID":2,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"ConditionPuedeEmitirDestello","NodeData":{"Offset":"(-94.67604,110.458374)"},"ID":3,"Name":"Condition
-        Puede Emitir Destello","Instant":true},{"Type":"BTEmitirDestello","NodeData":{"Offset":"(75.7784958,119.5493)"},"ID":4,"Name":"BT
-        Emitir Destello","Instant":true}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-324.53656,124)"},"ID":5,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"ConditionPresaConfundida","NodeData":{"Offset":"(-156.4943,116.367477)"},"ID":6,"Name":"Condition
+      JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(480.6667,115.333344)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(0.6666851,127.528465)"},"ID":1,"Name":"Selector","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-324.53656,124)"},"ID":5,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"ConditionPresaConfundida","NodeData":{"Offset":"(-156.4943,116.367477)"},"ID":6,"Name":"Condition
         Presa Confundida","Instant":true},{"Type":"BTFollowPrey","NodeData":{"Offset":"(3.73301888,117.50383)"},"ID":7,"Name":"BT
         Follow Prey","Instant":true},{"Type":"BTSnakeAttack","NodeData":{"Offset":"(119.642059,117.503784)"},"ID":8,"Name":"BT
-        Snake Attack","Instant":true}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(54.6341476,146.585358)"},"ID":9,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"ConditionHambreAlta","NodeData":{"Offset":"(-75.56877,112.776566)"},"ID":10,"Name":"Condition
-        Hambre Alta","Instant":true},{"Type":"ConditionVeDepredador","NodeData":{"Offset":"(89.21062,105.303055)"},"ID":11,"Name":"Condition
-        Ve Depredador","Instant":true},{"Type":"BTFollowPrey","NodeData":{"Offset":"(242.850662,111.969742)"},"ID":12,"Name":"BT
+        Snake Attack","Instant":true}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-771.9488,114.776581)"},"ID":2,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"ConditionPuedeEmitirDestello","NodeData":{"Offset":"(-94.67604,110.458374)"},"ID":3,"Name":"Condition
+        Puede Emitir Destello","Instant":true},{"Type":"BTEmitirDestello","NodeData":{"Offset":"(75.7784958,119.5493)"},"ID":4,"Name":"BT
+        Emitir Destello","Instant":true}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(54.6341476,146.585358)"},"ID":9,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"ConditionHambreAlta","NodeData":{"Offset":"(-75.56877,112.776566)"},"ID":10,"Name":"Condition
+        Hambre Alta","Instant":true},{"Type":"ConditionVePresa","NodeData":{"Offset":"(94.18475,104.916245)"},"ID":11,"Name":"Condition
+        Ve Presa","Instant":true},{"Type":"BTFollowPrey","NodeData":{"Offset":"(242.850662,111.969742)"},"ID":12,"Name":"BT
         Follow Prey","Instant":true}]},{"Type":"BTWander","NodeData":{"Offset":"(388.666748,113.333344)"},"ID":13,"Name":"BT
         Wander","Instant":true}]}}'
       fieldSerializationData:
