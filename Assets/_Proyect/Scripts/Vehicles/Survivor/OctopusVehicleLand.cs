@@ -6,4 +6,12 @@ public class OctopusVehicleLand : SurvivorVehicleLand
     {
         LoadComponent();
     }
+
+    public void MoveToFoodPrey(Transform prey)
+    {
+        if (prey == null)
+            return;
+
+        ArriveBehaviour(prey.position, 3f);
+    }
 }

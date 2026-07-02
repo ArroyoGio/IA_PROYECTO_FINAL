@@ -30,10 +30,12 @@ MonoBehaviour:
         Ve Depredador","Instant":true},{"Type":"BTEvade","NodeData":{"Offset":"(69.333374,108)"},"ID":12,"Name":"BT
         Evade","Instant":true}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(622.7657,151.89444)"},"ID":13,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"EnergiaBaja","NodeData":{"Offset":"(-79.56372,96.38312)"},"ID":14,"Name":"Energia
         Baja","Instant":true,"Singlethreshold":30},{"Type":"BTDescansar","NodeData":{"Offset":"(40.8530045,95.3414154)"},"ID":15,"Name":"BT
-        Descansar","Instant":true}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(912.4483,151.949158)"},"ID":16,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"ConditionHambreAlta","NodeData":{"Offset":"(-63.0056152,120.396118)"},"ID":17,"Name":"Condition
+        Descansar","Instant":true}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(808.999939,272.6387)"},"ID":16,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"ConditionHambreAlta","NodeData":{"Offset":"(-63.0056152,120.396118)"},"ID":17,"Name":"Condition
         Hambre Alta","Instant":true},{"Type":"ConditionHayComida","NodeData":{"Offset":"(113.244324,116.646118)"},"ID":18,"Name":"Condition
         Hay Comida","Instant":true},{"Type":"BTSeekFood","NodeData":{"Offset":"(258.244263,119.146118)"},"ID":19,"Name":"BT
-        Seek Food","Instant":true,"SinglearriveDistance":1.5,"SingleslowingDistance":5}]},{"Type":"BTWander","NodeData":{"Offset":"(1300.17224,170.894989)"},"ID":20,"Name":"BT
+        Seek Food","Instant":true,"SinglearriveDistance":1.5,"SingleslowingDistance":5}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(1121.48267,134.7078)"},"ID":20,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"ConditionPresaComidaCerca","NodeData":{"Offset":"(-74.91038,120.396118)"},"ID":21,"Name":"Condition
+        Presa Comida Cerca","Instant":true},{"Type":"BTBuscarPresaComida","NodeData":{"Offset":"(125.149086,116.646118)"},"ID":22,"Name":"BT
+        Buscar Presa Comida","Instant":true}]},{"Type":"BTWander","NodeData":{"Offset":"(1447.13452,160.221771)"},"ID":23,"Name":"BT
         Wander","Instant":true}]}}'
       fieldSerializationData:
         typeName: []

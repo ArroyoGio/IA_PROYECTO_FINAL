@@ -18,13 +18,21 @@ public class OctopusActionLand : SurvivorActionLand
     public float inkRecoverRate = 15f;
     public ParticleSystem inkParticlePrefab;
 
+    [Header("Octopus Prey Food")]
+    public float preyFoodRange = 10f;
+    public float preyEatRange = 2f;
+    public float preyEatDamage = 20f;
+    public float preyEatCooldown = 1.5f;
+
     private const float CamouflageDrain = 10f;
     private const float CamouflageRecover = 8f;
     private const float CamouflageAlpha = 0.35f;
 
     private float lastInkTime = -999f;
+    private float lastPreyEatTime = -999f;
 
     private bool isResting;
+    private Transform currentFoodPrey;
 
     private float normalEyeDistance;
     private bool hasNormalEyeDistance;
@@ -82,6 +90,50 @@ public class OctopusActionLand : SurvivorActionLand
     {
         hunger = Mathf.Max(0, hunger - 30f);
         energy = Mathf.Min(maxEnergy, energy + 10f);
+    }
+
+    public bool HasPreyFoodNearby()
+    {
+        currentFoodPrey = FindClosestPreyFood();
+        UpdateFoodPreyBlackboard();
+        return currentFoodPrey != null;
+    }
+
+    public void BuscarPresaComida()
+    {
+        if (currentFoodPrey == null && !HasPreyFoodNearby())
+            return;
+
+        float distance = Vector3.Distance(transform.position, currentFoodPrey.position);
+        if (distance <= preyEatRange)
+        {
+            ComerPresa();
+            return;
+        }
+
+        OctopusVehicleLand octopusVehicle = survivorVehicle as OctopusVehicleLand;
+        if (octopusVehicle != null)
+            octopusVehicle.MoveToFoodPrey(currentFoodPrey);
+    }
+
+    public void ComerPresa()
+    {
+        if (currentFoodPrey == null)
+            return;
+
+        if (Time.time < lastPreyEatTime + preyEatCooldown)
+            return;
+
+        if (Vector3.Distance(transform.position, currentFoodPrey.position) > preyEatRange)
+            return;
+
+        HealthBase preyHealth = currentFoodPrey.GetComponentInParent<HealthBase>();
+        if (preyHealth != null && !preyHealth.IsDead)
+            preyHealth.ApplyDamage(preyEatDamage, WeaponType.Normal);
+
+        hunger = Mathf.Clamp(hunger - 20f, 0f, maxHunger);
+        lastPreyEatTime = Time.time;
+        UpdateFoodPreyBlackboard();
     }
 
     public void Descansar()
@@ -344,6 +396,49 @@ public class OctopusActionLand : SurvivorActionLand
         blackboard.SetFloat("Ink", ink);
         blackboard.SetBool("CamuflajeDisponible", camouflage > 0f);
         blackboard.SetBool("PuedeLiberarTinta", PuedeLiberarTinta());
+        UpdateFoodPreyBlackboard();
+    }
+
+    private Transform FindClosestPreyFood()
+    {
+        int preyLayer = LayerMask.NameToLayer("Prey");
+        if (preyLayer < 0)
+            return null;
+
+        Collider[] preyTargets = Physics.OverlapSphere(transform.position, preyFoodRange, 1 << preyLayer);
+        Transform closest = null;
+        float closestDistance = float.MaxValue;
+
+        for (int i = 0; i < preyTargets.Length; i++)
+        {
+            Transform prey = preyTargets[i].transform;
+            HealthBase preyHealth = prey.GetComponentInParent<HealthBase>();
+            if (preyHealth == null || preyHealth.IsDead)
+                continue;
+
+            float distance = Vector3.Distance(transform.position, prey.position);
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closest = prey;
+            }
+        }
+
+        return closest;
+    }
+
+    private void UpdateFoodPreyBlackboard()
+    {
+        if (blackboard == null)
+            return;
+
+        bool hasFoodPrey = currentFoodPrey != null;
+        float distance = hasFoodPrey
+            ? Vector3.Distance(transform.position, currentFoodPrey.position)
+            : float.MaxValue;
+
+        blackboard.SetBool("PresaComidaCerca", hasFoodPrey);
+        blackboard.SetFloat("DistanciaPresaComida", distance);
     }
 
     private void RestoreVisibility()
