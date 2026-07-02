@@ -174,7 +174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b1002ba8f012084d87bef877a794ecb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SphereActionLand
-  actionRadius: 10
+  actionRadius: 30
   targetLayer:
     serializedVersion: 2
     m_Bits: 0
@@ -192,6 +192,11 @@ MonoBehaviour:
   pulseInterval: 10
   stability: 100
   pulseParticlePrefab: {fileID: 3103735813199378000}
+  pulseEnergyCost: 20
+  energyRecoverRate: 10
+  attractionForce: 5
+  repelForce: 8
+  repelDuration: 1.5
 --- !u!114 &7409983733334742986
 MonoBehaviour:
   m_ObjectHideFlags: 0
