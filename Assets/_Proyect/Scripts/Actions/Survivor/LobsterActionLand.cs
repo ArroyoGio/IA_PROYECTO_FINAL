@@ -120,21 +120,8 @@ public class LobsterActionLand : SurvivorActionLand
 
     public override bool IsPreyClose()
     {
-        if (eye == null || eye.ViewEnemy == null)
-        {
-            currentPrey = null;
-            return false;
-        }
-
-        Transform target = eye.ViewEnemy.transform;
-        if (!IsInLayerHierarchy(target, "Prey"))
-        {
-            currentPrey = null;
-            return false;
-        }
-
-        currentPrey = target;
-        return Vector3.Distance(transform.position, currentPrey.position) <= ambushRange;
+        currentPrey = GetClosestTargetOnLayer("Prey", ambushRange);
+        return currentPrey != null;
     }
 
     protected override void UpdateSurvivorState()

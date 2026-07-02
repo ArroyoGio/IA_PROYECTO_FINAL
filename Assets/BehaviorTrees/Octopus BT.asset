@@ -33,7 +33,7 @@ MonoBehaviour:
         Descansar","Instant":true}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(912.4483,151.949158)"},"ID":16,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"ConditionHambreAlta","NodeData":{"Offset":"(-63.0056152,120.396118)"},"ID":17,"Name":"Condition
         Hambre Alta","Instant":true},{"Type":"ConditionHayComida","NodeData":{"Offset":"(113.244324,116.646118)"},"ID":18,"Name":"Condition
         Hay Comida","Instant":true},{"Type":"BTSeekFood","NodeData":{"Offset":"(258.244263,119.146118)"},"ID":19,"Name":"BT
-        Seek Food","Instant":true,"SinglearriveDistance":1.5,"SingleslowingDistance":5}]},{"Type":"BTWander","NodeData":{"Offset":"(1403.62024,188.136353)"},"ID":20,"Name":"BT
+        Seek Food","Instant":true,"SinglearriveDistance":1.5,"SingleslowingDistance":5}]},{"Type":"BTWander","NodeData":{"Offset":"(1300.17224,170.894989)"},"ID":20,"Name":"BT
         Wander","Instant":true}]}}'
       fieldSerializationData:
         typeName: []

@@ -28,7 +28,7 @@ public abstract class SurvivorActionLand : AICharacterAction
 
     public virtual bool IsPreyClose()
     {
-        currentPrey = GetDetectedTargetOnLayer("Prey");
+        currentPrey = GetClosestTargetOnLayer("Prey", actionRadius);
         return currentPrey != null;
     }
 
@@ -73,6 +73,30 @@ public abstract class SurvivorActionLand : AICharacterAction
 
         Transform target = eye.ViewEnemy.transform;
         return IsInLayerHierarchy(target, layerName) ? target : null;
+    }
+
+    protected Transform GetClosestTargetOnLayer(string layerName, float radius)
+    {
+        int layer = LayerMask.NameToLayer(layerName);
+        if (layer < 0)
+            return null;
+
+        Collider[] targets = Physics.OverlapSphere(transform.position, radius, 1 << layer);
+        Transform closest = null;
+        float closestDistance = float.MaxValue;
+
+        for (int i = 0; i < targets.Length; i++)
+        {
+            Transform target = targets[i].transform;
+            float distance = Vector3.Distance(transform.position, target.position);
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closest = target;
+            }
+        }
+
+        return closest;
     }
 
     protected bool IsInLayerHierarchy(Transform target, string layerName)

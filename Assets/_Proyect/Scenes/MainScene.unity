@@ -1556,6 +1556,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Octopus
       objectReference: {fileID: 0}
+    - target: {fileID: 5225902675665280052, guid: a0536db4b13848d41915b241d4ab6044, type: 3}
+      propertyPath: enemyLayers.m_Bits
+      value: 384
+      objectReference: {fileID: 0}
     - target: {fileID: 6465490408024487507, guid: a0536db4b13848d41915b241d4ab6044, type: 3}
       propertyPath: m_LocalPosition.x
       value: 33.6

@@ -117,7 +117,7 @@ MonoBehaviour:
   scanFrequency: 30
   enemyLayers:
     serializedVersion: 2
-    m_Bits: 384
+    m_Bits: 128
   occlusionLayers:
     serializedVersion: 2
     m_Bits: 0
